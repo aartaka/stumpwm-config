@@ -176,14 +176,19 @@ and moves the pointer to the center of this area -- in the direction of the GRAV
 (define-key *root-map* (kbd "m") "binwarp-keymap")
 
 (defprogram-shortcut dev
-    :command "guix environment -m ~/dev-manifest.scm -- emacs"
-    :pullp t
-    :key (kbd "C-F8"))
+  :command "guix environment -m ~/dev-manifest.scm -- emacs"
+  :pullp t
+  :key (kbd "C-F8"))
+
+(defprogram-shortcut next-dev
+  :command "guix environment --load=/home/aartaka/git-cloned/nyxt/build-scripts/guix.scm nss-certs glib-networking -- emacs"
+  :pullp t
+  :key (kbd "C-F7"))
 
 (defprogram-shortcut gimp
-    :command "guix environment --ad-hoc gimp -- gimp"
-    :pullp t
-    :key (kbd "C-F6"))
+  :command "guix environment --ad-hoc gimp -- gimp"
+  :pullp t
+  :key (kbd "C-F6"))
 
 (defvar *dict-uri* "http://wordnetweb.princeton.edu/perl/webwn?s=")
 (defun cleanup-definition (string)
