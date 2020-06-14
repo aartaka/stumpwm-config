@@ -39,8 +39,10 @@
 
       *mouse-focus-policy* :click)
 
+(defcommand timestamp-screenshot () ()
+            (screenshot:screenshot (format nil "~d.png" (get-universal-time))))
 
-(define-key *root-map* (kbd "SunPrint_Screen") "screenshot")
+(define-key *root-map* (kbd "SunPrint_Screen") "timestamp-screenshot")
 
 ;; A terrible macro to define both commands and keys conveniently.
 ;; It was even more horrible until I heard of defprogram-shortcut!
