@@ -14,26 +14,18 @@
     :map *root-map*
     :key (kbd "C-e"))
 
+(run-shell-command "bash -c \"export SBCL_HOME=\\\"$(dirname -- $(dirname -- $(readlink -f $(which sbcl))))/lib/sbcl/\\\"\"")
+
 (define-key *root-map* (kbd "e") "emacsclient")
 
-;; A solution to the obscure Guix (?) bug of versions change -- SBCL_HOME becomes empty
-(run-shell-command
- "bash -c \"export SBCL_HOME=\\\"$(dirname -- $(dirname -- $(readlink -f $(which sbcl))))/lib/sbcl/\\\"\"")
-
-;; To set the mouse pointer for a more typical look
-(stumpwm:run-shell-command "xsetroot -cursor_name left_ptr")
-
-;; Important quick- and asdf-loads
-(ql:quickload :zpng)
+;; Important asdf-loads
 (init-load-path "~/.stumpwm.d/contrib/") ; For StumpWM contribs to be easily loaded
-(asdf:load-systems :cl-ppcre :dexador :clx-truetype :slynk     ; dependencies
+(asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :swank     ; dependencies
                    :ttf-fonts :screenshot :battery-portable)   ; stumpwm-contribs
 
-
-;; Start Slynk server. Can't figure out how to make it work yet.
-;; (slynk:create-server :port 4008
-;;                      :dont-close t)
-;; (setf slynk:*use-dedicated-output-stream* nil)
+;; Start Swank server.
+(swank:create-server :port 4005
+                     :dont-close t)
 
 (setf *message-window-gravity* :center
       *message-window-input-gravity* :center
