@@ -30,6 +30,8 @@
       *input-window-gravity* :center
       *timeout-wait* 2
 
+      *startup-message* "Happy window hacking!"
+
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
       *window-format* "%s %25t |"
@@ -42,9 +44,9 @@
 
 (define-key *root-map* (kbd "SunPrint_Screen") "timestamp-screenshot")
 
-;; A terrible macro to define both commands and keys conveniently.
-;; It was even more horrible until I heard of defprogram-shortcut!
 (defmacro define-shell-keys (&rest keybindings)
+  "A terrible macro to define both commands and keys conveniently.
+It was even more horrible until I heard of defprogram-shortcut!"
   `(progn ,@(loop :for binding :in keybindings
                   :collect
                   (let ((program (first binding)) (keys (rest binding)))
@@ -215,8 +217,6 @@ and moves the pointer to the center of this area -- in the direction of the GRAV
   (libreoffice "l" "C-l"))
 
 ;; This section is dependent on Vimium-FF
-;; That's a big lose on the side of Emacs user base
-;; ... or myself not being able to fing Emacs-inspired addon for FF
 (define-remapped-keys
     `((,(lambda (win)
           (and (member (window-class win)
@@ -255,10 +255,6 @@ and moves the pointer to the center of this area -- in the direction of the GRAV
         ("C-M-a" . "C-Home") ; Jump to the beginning of the text
         ("C-M-e" . "C-End")  ; Jump to the end of the text
         ("C-SPC" . "F7"))))  ; Caret mode. Can be handy for text selection.
-
-;; The command to set urxvt appearance up.
-;; I'd better have something lispy, 'cause .Xresources confuses me.
-(run-shell-command "xrdb ~/.Xresources")
 
 ;; Recommended by Guix Cookbook. Will revisit and test later.
 ;; (require :ttf-fonts)
