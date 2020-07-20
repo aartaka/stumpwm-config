@@ -10,11 +10,9 @@
 (run-shell-command "emacs --daemon")
 
 (defprogram-shortcut emacsclient
-    :command "emacsclient -cn -a '' -F '((font . \"Hack-18\") (vertical-scroll-bars) (tool-bar-lines) (menu-bar-lines))'"
+    :command "emacsclient -cn -a '' -F '((font . \"Hack-17\") (vertical-scroll-bars) (tool-bar-lines) (menu-bar-lines))'"
     :map *root-map*
-    :key (kbd "C-e"))
-
-(run-shell-command "bash -c \"export SBCL_HOME=\\\"$(dirname -- $(dirname -- $(readlink -f $(which sbcl))))/lib/sbcl/\\\"\"")
+    :key (kbd "e"))
 
 (define-key *root-map* (kbd "e") "emacsclient")
 
