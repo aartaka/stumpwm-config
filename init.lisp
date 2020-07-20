@@ -184,29 +184,25 @@ and moves the pointer to the center of this area -- in the direction of the GRAV
   :pullp t
   :key (kbd "C-F6"))
 
-(defvar *dict-uri* "http://wordnetweb.princeton.edu/perl/webwn?s=")
-(defun cleanup-definition (string)
-  (ppcre:regex-replace-all
-   "(<[^>]*>|S:|\\([^ )]\\))"
-   (ppcre:regex-replace-all
-    "<h3[^>]*>"
-    (ppcre:regex-replace-all
-     "</h3[^>]*>"
-     string
-     "^r")
-    "^R")
-   ""))
 
 (defcommand definition (word) ((:string "Definition of: "))
-            (let ((*timeout-wait* 20))
-              (message "~{~a~%~}"
-                       (mapcar #'cleanup-definition
-                               (ppcre:all-matches-as-strings
-                                "(<h3[^>]*>.*</h3.*>|<li[^>]*>.*</li.*>)"
-                                (dex:get (concatenate
-                                          'string
-                                          "http://wordnetweb.princeton.edu/perl/webwn?s="
-                                          word)))))))
+  (flet ((cleanup-definition (string)
+           (ppcre:regex-replace-all
+            "(<[^>]*>|S:|\\([^ )]\\))"
+            (ppcre:regex-replace-all
+             "<h3[^>]*>"
+             (ppcre:regex-replace-all
+              "</h3[^>]*>"
+              string
+              "^r")
+             "^R")
+            "")))
+    (let ((*timeout-wait* 20))
+      (message "~{~a~%~}"
+               (mapcar #'cleanup-definition
+                       (ppcre:all-matches-as-strings
+                        "(<h3[^>]*>.*</h3.*>|<li[^>]*>.*</li.*>)"
+                        (dex:get (concatenate 'string *dict-url* word))))))))
 
 (define-key *root-map* (kbd "d") "definition")
 
