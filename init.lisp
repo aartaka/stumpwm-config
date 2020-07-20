@@ -38,7 +38,7 @@
       *mouse-focus-policy* :click)
 
 (defcommand timestamp-screenshot () ()
-            (screenshot:screenshot (format nil "~d.png" (get-universal-time))))
+  (screenshot:screenshot (format nil "~X.png" (get-universal-time))))
 
 (define-key *root-map* (kbd "SunPrint_Screen") "timestamp-screenshot")
 
