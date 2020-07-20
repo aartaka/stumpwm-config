@@ -21,9 +21,10 @@
 (asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk    ; dependencies
                    :ttf-fonts :screenshot :battery-portable :binwarp)           ; stumpwm-contribs
 
-;; Start Swank server.
-(swank:create-server :port 4005
-                     :dont-close t)
+;; Command to start Slynk server.
+(defcommand start-slynk () ()
+  (slynk:create-server :port 4012
+                       :dont-close t))
 
 (setf *message-window-gravity* :center
       *message-window-input-gravity* :center
