@@ -174,8 +174,12 @@ and moves the pointer to the center of this area -- in the direction of the GRAV
   :pullp t
   :key (kbd "C-F8"))
 
-(defprogram-shortcut next-dev
-  :command "guix environment --load=/home/aartaka/git-cloned/nyxt/build-scripts/guix.scm nss-certs glib-networking -- emacs"
+(defprogram-shortcut nyxt-dev
+  :command #.(concatenate 'string
+                          "guix environment "
+                          "-l ~/git-cloned/nyxt/build-scripts/guix.scm "
+                          "glib-networking --ad-hoc nss-certs glib-networking "
+                          "-- emacs")
   :pullp t
   :key (kbd "C-F7"))
 
@@ -184,6 +188,12 @@ and moves the pointer to the center of this area -- in the direction of the GRAV
   :pullp t
   :key (kbd "C-F6"))
 
+(defprogram-shortcut cl-webkit
+  :command "guix environment --ad-hoc glib glib-networking gdk-pixbuf cairo pango gtk+ webkitgtk -- emacs"
+  :pullp t
+  :key (kbd "C-F5"))
+
+(defvar *dict-url* "http://wordnetweb.princeton.edu/perl/webwn?s=")
 
 (defcommand definition (word) ((:string "Definition of: "))
   (flet ((cleanup-definition (string)
