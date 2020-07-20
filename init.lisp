@@ -17,9 +17,9 @@
 (define-key *root-map* (kbd "e") "emacsclient")
 
 ;; Important asdf-loads
-(init-load-path "~/.stumpwm.d/contrib/") ; For StumpWM contribs to be easily loaded
-(asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :swank     ; dependencies
-                   :ttf-fonts :screenshot :battery-portable)   ; stumpwm-contribs
+(init-load-path "~/git-cloned/stumpwm-contrib/") ; For StumpWM contribs to be easily loaded
+(asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk    ; dependencies
+                   :ttf-fonts :screenshot :battery-portable :binwarp)           ; stumpwm-contribs
 
 ;; Start Swank server.
 (swank:create-server :port 4005
@@ -55,119 +55,15 @@ It was even more horrible until I heard of defprogram-shortcut!"
                                                 :map *root-map*
                                                 :key (kbd ,key))))))))
 
-(defclass binwarp-area ()
-  ((area-x :initarg :area-x :type 'bignum :accessor area-x)
-   (area-y :initarg :area-y :type 'bignum :accessor area-y)
-   (height :initarg :height :type 'bignum :accessor height)
-   (width  :initarg :width  :type 'bignum :accessor width)
-   (pointer-x               :type 'bignum :accessor ptr-x)
-   (pointer-y               :type 'bignum :accessor ptr-y)))
-
-;; (defcommand init-binwarp () ()
-;;   (let ((win (current-window)))
-;;     (setf *binwarp-mode* t
-;;           *binwarp-area*
-;;           (make-instance binwarp-area
-;;                          :area-x (window-x win)
-;;                          :area-y (window-y win)
-;;                          :height (window-height win)
-;;                          :width  (window-width win))))
-;;   (when *reinitiate-pointer*
-;;     (centered-warp *binwarp-area*)))
-
-(defvar *binwarp-mode* nil
-  "Whether you are in the binwarp mode")
-(defvar *binwarp-area* '(:top nil :bottom nil :right nil :left nil)
-  "The current screen area that binwarp is restricted by")
-(defvar *binwarp-history* nil
-  "The previous binwarp areas")
-(defvar *reinitiate-pointer* nil
-  "Set this to non-nil if you want to start binwarping from specific point on the screen")
-(defvar *clear-history* nil
-  "Whether the history of binwarps cleans up after every binwarping session")
-(defvar *preserve-pointer* nil
-  "Whether you need the pointer position change only in the axis you are providing")
-
-(defcommand init-binwarp () ()
-  (let ((win (current-window)))
-    (setf *binwarp-mode* t
-          (getf *binwarp-area* :top) (window-y win)
-          (getf *binwarp-area* :bottom) (+ (window-y win) (window-height win))
-          (getf *binwarp-area* :left) (window-x win)
-          (getf *binwarp-area* :right) (+ (window-x win) (window-width win))))
-  (when *reinitiate-pointer*
-    (centered-warp *binwarp-area*)))
-
-(defcommand exit-binwarp () ()
-  (setf *binwarp-mode* nil
-        *binwarp-history*
-        (when (not *clear-history*)
-          *binwarp-history*))
-  (refresh))
-
-(defun invert-gravity (gravity)
-  (case gravity
-    (:left :right)
-    (:right :left)
-    (:top :bottom)
-    (:bottom :top)))
-
-(defun avg (&rest list)
-  (/ (reduce #'+ list)
-     (length list)))
-
-(defun centered-warp (area)
-  (macrolet ((ar (grav) `(getf area ,grav)))
-    (ratwarp (round (avg (ar :left) (ar :right)))
-             (round (avg (ar :top) (ar :bottom))))))
-
-(defmacro with-pointer ((x-var y-var) &body body)
-  `(multiple-value-bind (,x-var ,y-var)
-       (xlib:global-pointer-position *display*)
-     ,@body))
-
-(defcommand back-binwarp () ()
-  (when *binwarp-history*
-    (setf *binwarp-area* (pop *binwarp-history*))
-    (centered-warp *binwarp-area*)))
-
-(defun vertical-p (gravity)
-  (member gravity '(:top :bottom)))
-
-(defun horisontal-p (gravity)
-  (member gravity '(:right :left)))
-
-(defcommand binwarp (gravity) (:gravity)
-  "A command that splits the current *BINWARP-AREA* in two over the pointer position
-and moves the pointer to the center of this area -- in the direction of the GRAVITY."
-  (push *binwarp-area* *binwarp-history*)
-  (with-pointer (pointer-x pointer-y)
-    (setf (getf *binwarp-area* (invert-gravity gravity))
-          (if (horisontal-p gravity) pointer-x pointer-y))
-    (centered-warp *binwarp-area*)))
-
-(define-interactive-keymap (binwarp-keymap tile-group)
-    (:on-enter #'init-binwarp
-     :on-exit #'exit-binwarp
-     :exit-on ((kbd "C-g")
-               (kbd "ESC")))
-  ((kbd "n") "binwarp bottom")
-  ((kbd "p") "binwarp top")
-  ((kbd "f") "binwarp right")
-  ((kbd "b") "binwarp left")
-
+(binwarp:define-binwarp-mode binwarp-mode
+    "m" (:map *root-map*)
   ((kbd "C-n") "ratrelwarp  0 +5")
   ((kbd "C-p") "ratrelwarp  0 -5")
   ((kbd "C-f") "ratrelwarp +5  0")
   ((kbd "C-b") "ratrelwarp -5  0")
 
   ((kbd "RET") "ratclick 1")
-  ((kbd "SPC") "ratclick 3")
-
-  ((kbd "0") "init-binwarp")
-  ((kbd "TAB") "back-binwarp"))
-
-(define-key *root-map* (kbd "m") "binwarp-keymap")
+  ((kbd "SPC") "ratclick 3"))
 
 (defprogram-shortcut dev
   :command "guix environment -m ~/dev-manifest.scm -- emacs"
@@ -228,7 +124,7 @@ and moves the pointer to the center of this area -- in the direction of the GRAV
           (and (member (window-class win)
                        '("Firefox" "IceCat" "Nightly")
                        :test #'string-equal)
-               (not *binwarp-mode*)))
+               (not binwarp:*binwarp-mode-p*)))
         ;; The native ones
         ("C-n" . "Down")
         ("C-p" . "Up")
