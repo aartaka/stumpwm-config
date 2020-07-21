@@ -43,7 +43,7 @@
 (defcommand timestamp-screenshot () ()
   (screenshot:screenshot (format nil "~X.png" (get-universal-time))))
 
-(define-key *root-map* (kbd "SunPrint_Screen") "timestamp-screenshot")
+(define-key *root-map* (kbd "M-p") "timestamp-screenshot")
 
 (defmacro define-shell-keys (&rest keybindings)
   "A terrible macro to define both commands and keys conveniently.
