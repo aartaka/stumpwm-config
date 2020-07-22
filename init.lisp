@@ -44,17 +44,7 @@
   (slynk:create-server :port *slynk-port*
                        :dont-close t))
 
-(defmacro define-shell-keys (&rest keybindings)
-  "A terrible macro to define both commands and keys conveniently.
-It was even more horrible until I heard of defprogram-shortcut!"
-  `(progn ,@(loop :for binding :in keybindings
-                  :collect
-                  (let ((program (first binding)) (keys (rest binding)))
-                    `(progn ,@(loop :for key :in keys
-                                    :collect `(defprogram-shortcut ,program
-                                                :map *root-map*
-                                                :key (kbd ,key))))))))
-(defcommand timestamp-screenshot () () 
+(defcommand timestamp-screenshot () ()
  (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
 
 (binwarp:define-binwarp-mode binwarp-mode
@@ -110,11 +100,6 @@ It was even more horrible until I heard of defprogram-shortcut!"
 
 (define-key *root-map* (kbd "d") "definition")
 
-(define-shell-keys
-    (icecat "f" "C-f")
-    (urxvt "c" "C-c")
-  (keepassxc "p" "C-p")
-  (libreoffice "l" "C-l"))
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-R")   "remove")
@@ -128,6 +113,10 @@ It was even more horrible until I heard of defprogram-shortcut!"
                (,(kbd "s-g")   ,*groups-map*)
                (,(kbd "s-x")   ,*exchange-window-map*)
                (,(kbd "s-q")   "send-raw-key")
+               (,(kbd "s-C-i") "exec icecat")
+               (,(kbd "s-C-u") "exec urxvt")
+               (,(kbd "s-C-k") "exec keepassx")
+               (,(kbd "s-C-l") "exec libreoffice")
                (,(kbd "s-SPC") "pull-hidden-next")
                (,(kbd "s-M-p") "prev-in-frame")
                (,(kbd "s-M-n") "next-in-frame")
