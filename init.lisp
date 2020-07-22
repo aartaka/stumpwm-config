@@ -9,13 +9,6 @@
 
 (run-shell-command "emacs --daemon")
 
-(defprogram-shortcut emacsclient
-    :command "emacsclient -cn -a '' -F '((font . \"Hack-17\") (vertical-scroll-bars) (tool-bar-lines) (menu-bar-lines))'"
-    :map *root-map*
-    :key (kbd "e"))
-
-(define-key *root-map* (kbd "e") "emacsclient")
-
 ;; Important asdf-loads
 (init-load-path "~/git-cloned/stumpwm-contrib/")
 (asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk    ; dependencies
@@ -71,11 +64,6 @@
   :pullp t
   :key (kbd "C-F7"))
 
-(defprogram-shortcut gimp
-  :command "guix environment --ad-hoc gimp -- gimp"
-  :pullp t
-  :key (kbd "C-F6"))
-
 (defprogram-shortcut cl-webkit-dev
   :command "guix environment --ad-hoc glib glib-networking gdk-pixbuf cairo pango gtk+ webkitgtk -- emacs"
   :pullp t
@@ -98,8 +86,6 @@
                         "(<h3[^>]*>.*</h3.*>|<li[^>]*>.*</li.*>)"
                         (dex:get (concatenate 'string *dict-url* word))))))))
 
-(define-key *root-map* (kbd "d") "definition")
-
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-R")   "remove")
@@ -113,10 +99,17 @@
                (,(kbd "s-g")   ,*groups-map*)
                (,(kbd "s-x")   ,*exchange-window-map*)
                (,(kbd "s-q")   "send-raw-key")
+               (,(kbd "s-d")   "definition")
+               (,(kbd "s-m")   "binwarp-mode")
+               (,(kbd "s-s")   "timestamp-screenshot")
+               (,(kbd "s-e")   ,(concat "exec emacsclient -cn -a '' "
+                                        "-F '((font . \"Hack-17\") (vertical-scroll-bars) "
+                                        "(tool-bar-lines) (menu-bar-lines))'"))
                (,(kbd "s-C-i") "exec icecat")
                (,(kbd "s-C-u") "exec urxvt")
                (,(kbd "s-C-k") "exec keepassx")
                (,(kbd "s-C-l") "exec libreoffice")
+               (,(kbd "s-C-g") "exec gimp")
                (,(kbd "s-SPC") "pull-hidden-next")
                (,(kbd "s-M-p") "prev-in-frame")
                (,(kbd "s-M-n") "next-in-frame")
