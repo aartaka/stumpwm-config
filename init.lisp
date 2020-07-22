@@ -107,7 +107,7 @@
                                         "(tool-bar-lines) (menu-bar-lines))'"))
                (,(kbd "s-C-i") "exec icecat")
                (,(kbd "s-C-u") "exec urxvt")
-               (,(kbd "s-C-k") "exec keepassx")
+               (,(kbd "s-C-k") "exec keepassxc")
                (,(kbd "s-C-l") "exec libreoffice")
                (,(kbd "s-C-g") "exec gimp")
                (,(kbd "s-SPC") "pull-hidden-next")
