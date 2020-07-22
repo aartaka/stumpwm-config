@@ -86,7 +86,7 @@ It was even more horrible until I heard of defprogram-shortcut!"
   :pullp t
   :key (kbd "C-F6"))
 
-(defprogram-shortcut cl-webkit
+(defprogram-shortcut cl-webkit-dev
   :command "guix environment --ad-hoc glib glib-networking gdk-pixbuf cairo pango gtk+ webkitgtk -- emacs"
   :pullp t
   :key (kbd "C-F5"))
