@@ -93,16 +93,14 @@ It was even more horrible until I heard of defprogram-shortcut!"
 
 (defcommand definition (word) ((:string "Definition of: "))
   (flet ((cleanup-definition (string)
-           (ppcre:regex-replace-all
-            "(<[^>]*>|S:|\\([^ )]\\))"
-            (ppcre:regex-replace-all
-             "<h3[^>]*>"
-             (ppcre:regex-replace-all
-              "</h3[^>]*>"
-              string
-              "^r")
-             "^R")
-            "")))
+           (reduce #'(lambda (string replacements)
+                       (ppcre:regex-replace-all (first replacements)
+                                                string
+                                                (second replacements)))
+                   '(("</h3[^>]*>" "^r")
+                     ("<h3[^>]*>" "^R")
+                     ("(<[^>]*>|S:|\\([^ )]\\))" ""))
+                   :initial-value string)))
     (let ((*timeout-wait* 20))
       (message "~{~a~%~}"
                (mapcar #'cleanup-definition
