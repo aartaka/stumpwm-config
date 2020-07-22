@@ -39,10 +39,6 @@
 
       *mouse-focus-policy* :click)
 
-(defcommand timestamp-screenshot () ()
-  (screenshot:screenshot (format nil "~X.png" (get-universal-time))))
-
-(define-key *root-map* (kbd "M-p") "timestamp-screenshot")
 ;; Command to start Slynk server.
 (defcommand start-slynk () ()
   (slynk:create-server :port *slynk-port*
@@ -58,6 +54,8 @@ It was even more horrible until I heard of defprogram-shortcut!"
                                     :collect `(defprogram-shortcut ,program
                                                 :map *root-map*
                                                 :key (kbd ,key))))))))
+(defcommand timestamp-screenshot () () 
+ (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
 
 (binwarp:define-binwarp-mode binwarp-mode
     "m" (:map *root-map*)
