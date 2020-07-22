@@ -21,10 +21,9 @@
 (asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk    ; dependencies
                    :ttf-fonts :screenshot :battery-portable :binwarp)           ; stumpwm-contribs
 
-;; Command to start Slynk server.
-(defcommand start-slynk () ()
-  (slynk:create-server :port 4012
-                       :dont-close t))
+(defvar *dict-url* "http://wordnetweb.princeton.edu/perl/webwn?s="
+  "The URL for the english dict lookups")
+(defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
 (setf *message-window-gravity* :center
       *message-window-input-gravity* :center
@@ -44,6 +43,10 @@
   (screenshot:screenshot (format nil "~X.png" (get-universal-time))))
 
 (define-key *root-map* (kbd "M-p") "timestamp-screenshot")
+;; Command to start Slynk server.
+(defcommand start-slynk () ()
+  (slynk:create-server :port *slynk-port*
+                       :dont-close t))
 
 (defmacro define-shell-keys (&rest keybindings)
   "A terrible macro to define both commands and keys conveniently.
@@ -89,8 +92,6 @@ It was even more horrible until I heard of defprogram-shortcut!"
   :command "guix environment --ad-hoc glib glib-networking gdk-pixbuf cairo pango gtk+ webkitgtk -- emacs"
   :pullp t
   :key (kbd "C-F5"))
-
-(defvar *dict-url* "http://wordnetweb.princeton.edu/perl/webwn?s=")
 
 (defcommand definition (word) ((:string "Definition of: "))
   (flet ((cleanup-definition (string)
