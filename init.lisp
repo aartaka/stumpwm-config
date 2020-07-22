@@ -134,12 +134,13 @@ It was even more horrible until I heard of defprogram-shortcut!"
         ("M-." . "M-Right")  ; Forward in history
         ("M-," . "M-Left")   ; Back in history
         ("C-s" . "C-f")      ; Forward search
-        ("C-r" . "C-G")      ; Reverse search
         ("C-g" . "ESC")      ; Cancel whatever
         ("C-d" . "C-k")      ; Focus search bar
         ("C-o" . "C-t")      ; New tab
         ("C-k" . "C-w")      ; Close current tab
         ("C-1" . "F11")      ; Fullscreen
+        ("C-r" . "C-M-R")    ; Reader-mode?
+        ("C-R" . "C-M-r")    ; Reload the page
         ;; The ones that I owe to Vimium
         ("C-?" . "?")        ; Vimium help screen
         ("M-l" . "F")        ; Open the link in the new tab
@@ -154,7 +155,10 @@ It was even more horrible until I heard of defprogram-shortcut!"
         ("C-e" . "C-Down")   ; Jump to the end of the line
         ("C-M-a" . "C-Home") ; Jump to the beginning of the text
         ("C-M-e" . "C-End")  ; Jump to the end of the text
-        ("C-SPC" . "F7"))))  ; Caret mode. Can be handy for text selection.
+        ("C-SPC" . "F7")     ; Caret mode. Can be handy for text selection.
+        ;; Unbind the quirky original keybindings
+        ("C-t" . "ESC")
+        ("C-w" . "ESC"))))
 
 ;; Recommended by Guix Cookbook. Will revisit and test later.
 ;; (require :ttf-fonts)
