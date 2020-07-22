@@ -17,7 +17,7 @@
 (define-key *root-map* (kbd "e") "emacsclient")
 
 ;; Important asdf-loads
-(init-load-path "~/git-cloned/stumpwm-contrib/") ; For StumpWM contribs to be easily loaded
+(init-load-path "~/git-cloned/stumpwm-contrib/")
 (asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk    ; dependencies
                    :ttf-fonts :screenshot :battery-portable :binwarp)           ; stumpwm-contribs
 
