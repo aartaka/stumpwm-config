@@ -86,6 +86,8 @@
                         "(<h3[^>]*>.*</h3.*>|<li[^>]*>.*</li.*>)"
                         (dex:get (concatenate 'string *dict-url* word))))))))
 
+(set-prefix-key (kbd "s-t"))
+
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-R")   "remove")
@@ -94,7 +96,6 @@
                (,(kbd "s-:")   "eval")
                (,(kbd "s-;")   "colon")
                (,(kbd "s-!")   "exec")
-               (,(kbd "s-t")   ,*root-map*)
                (,(kbd "s-h")   ,*help-map*)
                (,(kbd "s-g")   ,*groups-map*)
                (,(kbd "s-x")   ,*exchange-window-map*)
