@@ -90,7 +90,6 @@
 
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
-               (,(kbd "s-R")   "remove")
                (,(kbd "s-a")   "time")
                (,(kbd "s-b")   "banish")
                (,(kbd "s-:")   "eval")
@@ -114,10 +113,11 @@
                (,(kbd "s-SPC") "pull-hidden-next")
                (,(kbd "s-M-p") "prev-in-frame")
                (,(kbd "s-M-n") "next-in-frame")
-               (,(kbd "s-5")   "fullscreen")
+               (,(kbd "s-4")   "fullscreen")
                (,(kbd "s-3")   "hsplit")
                (,(kbd "s-2")   "vsplit")
                (,(kbd "s-1")   "only")
+               (,(kbd "s-0")   "remove")
                (,(kbd "s-TAB") "fother")
                (,(kbd "s-w")   "windows")
                (,(kbd "s-l")   "redisplay")
