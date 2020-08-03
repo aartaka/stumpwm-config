@@ -7,8 +7,6 @@
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
-(run-shell-command "emacs --daemon")
-
 ;; Important asdf-loads
 (init-load-path "~/git-cloned/stumpwm-contrib/")
 (asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk    ; dependencies
