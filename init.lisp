@@ -51,7 +51,7 @@
 (defprogram-shortcut dev
   :command "guix environment -m ~/dev-manifest.scm -- emacs"
   :pullp t
-  :key (kbd "C-F8"))
+  :key (kbd "s-C-8"))
 
 (defprogram-shortcut nyxt-dev
   :command #.(concatenate 'string
@@ -60,12 +60,12 @@
                           "glib-networking --ad-hoc nss-certs glib-networking "
                           "-- emacs")
   :pullp t
-  :key (kbd "C-F7"))
+  :key (kbd "s-C-7"))
 
 (defprogram-shortcut cl-webkit-dev
   :command "guix environment --ad-hoc glib glib-networking gdk-pixbuf cairo pango gtk+ webkitgtk -- emacs"
   :pullp t
-  :key (kbd "C-F5"))
+  :key (kbd "s-C-5"))
 
 (defcommand definition (word) ((:string "Definition of: "))
   (flet ((cleanup-definition (string)
