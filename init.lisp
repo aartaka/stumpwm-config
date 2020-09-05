@@ -36,7 +36,7 @@
                        :dont-close t))
 
 (defcommand timestamp-screenshot () ()
- (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
+  (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
 
 (binwarp:define-binwarp-mode binwarp-mode
     "m" (:map *root-map*)
