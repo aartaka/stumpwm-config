@@ -48,25 +48,6 @@
   ((kbd "RET") "ratclick 1")
   ((kbd "SPC") "ratclick 3"))
 
-(defprogram-shortcut dev
-  :command "guix environment -m ~/dev-manifest.scm -- emacs"
-  :pullp t
-  :key (kbd "s-C-8"))
-
-(defprogram-shortcut nyxt-dev
-  :command #.(concatenate 'string
-                          "guix environment "
-                          "-l ~/git-cloned/nyxt/build-scripts/guix.scm "
-                          "glib-networking --ad-hoc nss-certs glib-networking "
-                          "-- emacs")
-  :pullp t
-  :key (kbd "s-C-7"))
-
-(defprogram-shortcut cl-webkit-dev
-  :command "guix environment --ad-hoc glib glib-networking gdk-pixbuf cairo pango gtk+ webkitgtk -- emacs"
-  :pullp t
-  :key (kbd "s-C-5"))
-
 (defcommand definition (word) ((:string "Definition of: "))
   (flet ((cleanup-definition (string)
            (reduce #'(lambda (string replacements)
@@ -108,6 +89,15 @@
                (,(kbd "s-C-k") "exec keepassxc")
                (,(kbd "s-C-l") "exec libreoffice")
                (,(kbd "s-C-g") "exec gimp")
+               (,(kbd "s-C-5") ,(concat "exec guix environment "
+                                        "--ad-hoc glib glib-networking gdk-pixbuf "
+                                        "cairo pango gtk+ webkitgtk -- emacs"))
+               ;; guix environment -l ~/git-cloned/nyxt/build-scripts/guix.scm glib-networking --ad-hoc nss-certs glib-networking -- emacs
+               (,(kbd "s-C-7") ,(concat "exec guix environment "
+                                        "-l ~/git-cloned/nyxt/build-scripts/guix.scm "
+                                        "glib-networking --ad-hoc nss-certs glib-networking "
+                                        "-- emacs"))
+               ;; TODO: add s-C-8 for development profile
                (,(kbd "s-SPC") "pull-hidden-next")
                (,(kbd "s-M-p") "prev-in-frame")
                (,(kbd "s-M-n") "next-in-frame")
