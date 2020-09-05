@@ -164,10 +164,9 @@
         ("C-w" . "ESC"))))
 
 ;; Recommended by Guix Cookbook. Will revisit and test later.
-;; (require :ttf-fonts)
-;; (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
-;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
-;; (xft:cache-fonts)
-;; (set-font (make-instance 'xft:font :family "DejaVu Sans Mono" :subfamily "Book" :size 11))
+(setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
+(setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
+(xft:cache-fonts)
+;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
 
 (enable-mode-line (current-screen) (current-head) :visible)
