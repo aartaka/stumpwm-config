@@ -84,6 +84,7 @@
                (,(kbd "s-e")   ,(concat "exec emacsclient -cn -a '' "
                                         "-F '((font . \"Hack-17\") (vertical-scroll-bars) "
                                         "(tool-bar-lines) (menu-bar-lines))'"))
+               (,(kbd "s-C-e") "exec emacs")
                (,(kbd "s-C-i") "exec icecat")
                (,(kbd "s-C-u") "exec urxvt")
                (,(kbd "s-C-k") "exec keepassxc")
