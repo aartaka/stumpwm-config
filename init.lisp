@@ -9,12 +9,23 @@
 
 ;; Important asdf-loads
 (init-load-path "~/git-cloned/stumpwm-contrib/")
-(asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk    ; dependencies
+(asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria
+                             :slynk :bordeaux-threads                           ; dependencies
                    :ttf-fonts :screenshot :battery-portable :binwarp)           ; stumpwm-contribs
 
 (defvar *dict-url* "http://wordnetweb.princeton.edu/perl/webwn?s="
   "The URL for the english dict lookups")
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
+
+(defvar *battery-thread*
+  (bt:make-thread
+   #'(lambda ()
+       (let ((*message-window-gravity* :top-left))
+         (loop :for time := (get-universal-time)
+               :when (= 0 (mod time 40))
+                 :do (battery-info-message))))
+   :name "Battery reporting")
+  "A small thread for battery state reporting. Made to get rid of modeline.")
 
 (setf *message-window-gravity* :center
       *message-window-input-gravity* :center
@@ -37,6 +48,9 @@
 
 (defcommand timestamp-screenshot () ()
   (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
+
+(defcommand battery-info-message () ()
+  (message (battery-portable::battery-info-string)))
 
 (binwarp:define-binwarp-mode binwarp-mode
     "m" (:map *root-map*)
@@ -70,6 +84,7 @@
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-a")   "time")
+               (,(kbd "s-B")   "battery-info-message")
                (,(kbd "s-b")   "banish")
                (,(kbd "s-:")   "eval")
                (,(kbd "s-;")   "colon")
@@ -169,5 +184,3 @@
 (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
 (xft:cache-fonts)
 ;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
-
-(enable-mode-line (current-screen) (current-head) :visible)
