@@ -106,8 +106,8 @@
                (,(kbd "s-C-l") "exec libreoffice")
                (,(kbd "s-C-g") "exec gimp")
                (,(kbd "s-C-5") ,(concat "exec guix environment "
-                                        "--ad-hoc glib glib-networking gdk-pixbuf "
-                                        "cairo pango gtk+ webkitgtk -- emacs"))
+                                        "-l projects/throwaway-guix-packages/cl-webkit.scm "
+                                        "-- emacs"))
                ;; guix environment -l ~/git-cloned/nyxt/build-scripts/guix.scm glib-networking --ad-hoc nss-certs glib-networking -- emacs
                (,(kbd "s-C-7") ,(concat "exec guix environment "
                                         "-l ~/git-cloned/nyxt/build-scripts/guix.scm "
