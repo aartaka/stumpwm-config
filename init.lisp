@@ -185,8 +185,7 @@
         ("C-M-e" . "C-End")  ; Jump to the end of the text
         ("C-SPC" . "F7")     ; Caret mode. Can be handy for text selection.
         ;; Unbind the quirky original keybindings
-        ("C-t" . "ESC")
-        ("C-w" . "ESC"))))
+        ("C-t" . "ESC"))))
 
 ;; Recommended by Guix Cookbook. Will revisit and test later.
 (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
