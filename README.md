@@ -1,5 +1,7 @@
 # My StumpWM config
 
+UPDATE: I've moved to EXWM, so this repo will not be updated. I'll keep it there to not make it vanish into non-existence.
+
 This is the repo with my chaotic customisations of StumpWM. Although it's chaotic and long, there are two parts that I plan to enhance and move to separate contrib files. Until this happens, this README will contain explanation and documentation for these two contributions: `definition` command and `binwarp` mouse-replacing mode.
 
 ## definition
@@ -13,6 +15,8 @@ The source for the definitions is the Princeton university's [WordNet system](ht
 Given these parts, it's a simple one-screen command that does everything that I needed, with the biggest amount of code spent on wrestling with HTML (Okay, using Plump starts sounding like a good idea while I'm writing these lines). You can safely use it in your own config. **The requirements are [Dexador](https://github.com/fukamachi/dexador) and [CL-PPCRE](https://github.com/edicl/cl-ppcre)**.
 
 ## binwarp-mode
+
+Binwarp-mode is now a part of [stumpwm-contrib](https://github.com/stumpwm/stumpwm-contrib)! Use it from there :) What follows is a small historical reference:
 
 The touchpad of my laptop worked well... until it didn't. So, I needed to solve this problem. And, as a good tradition goes, if you can't solve the problem at once, split it into two smaller problems, if you can't solve the smaller problem, split it in two... You've got the idea. 
 
