@@ -168,22 +168,6 @@
         ("C-t" . "ESC")
         ("C-q" . "ESC"))))
 
-(define-remapped-keys
-    `((,(lambda (win)
-          (declare (ignorable win))
-          (and (not (ppcre:all-matches "[Ee]macs|[Nn]yxt" "Nyxt"))
-               (not binwarp:*binwarp-mode-p*)))
-        ;; The native ones
-        ("C-n" . "Down")
-        ("C-p" . "Up")
-        ("C-b" . "Left")
-        ("C-f" . "Right")
-        ("M-<" . "Home")
-        ("M->" . "End")
-        ("C-a" . "Home")
-        ("C-e" . "End")
-        ("C-d" . "Delete"))))
-
 ;; Recommended by Guix Cookbook. Will revisit and test later.
 ;; (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
 ;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
