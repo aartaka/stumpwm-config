@@ -18,8 +18,8 @@
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
 (defun battery-accessible-p ()
-  (member (battery-portable::battery-info-string)
-          '("(not implemented)") :test #'string=))
+  (not (member (battery-portable::battery-info-string)
+           '("(not implemented)") :test #'string=)))
 
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
