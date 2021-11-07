@@ -2,16 +2,6 @@
 
 This is the repo with my chaotic customisations of StumpWM. Although it's chaotic and long, there are two parts that I plan to enhance and move to separate contrib files. Until this happens, this README will contain explanation and documentation for these two contributions: `definition` command and `binwarp` mouse-replacing mode.
 
-## definition
-
-Yet Another Dictionary Lookup Contrib for StumpWM. This function is my optimization of reading books in English. I sometimes need to look up the definitions and examples of usage of some English words. The idea behind this function is that the Browser-Search-engine-Dictionary-website loop is mostly inevitable and the old ways (like CSV dictionaries) are still cool but aren't that flexible and easily updatable.  
-
-That's why scraping web-pages, regexp-ing over them, and then prettifying the output was a way to go. Although usage of regexps to sanitize or format HTML is highly discouraged, it's not that sophisticated or critical of a case to use something more practical (Although using [Plump](https://github.com/Shinmera/plump/) might be a worthy alternative).  
-
-The source for the definitions is the Princeton university's [WordNet system](https://wordnet.princeton.edu/) and, in particular, the [webwn](http://wordnetweb.princeton.edu/perl/webwn) tool. Being a safe balance between academic and practical worlds, it's perfect for looking up the words from the range of literature that I happen to read from time to time: from the Victorian pathetic novels to the modern research to the documentation or standard of some hackish tool.  
-
-Given these parts, it's a simple one-screen command that does everything that I needed, with the biggest amount of code spent on wrestling with HTML (Okay, using Plump starts sounding like a good idea while I'm writing these lines). You can safely use it in your own config. **The requirements are [Dexador](https://github.com/fukamachi/dexador) and [CL-PPCRE](https://github.com/edicl/cl-ppcre)**.
-
 ## binwarp-mode
 
 Binwarp-mode is now a part of [stumpwm-contrib](https://github.com/stumpwm/stumpwm-contrib)! Use it from there :) What follows is a small historical reference:
