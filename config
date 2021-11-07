@@ -37,7 +37,7 @@
       *window-format* "%s %c %t |"
       *screen-mode-line-format* (format nil "~@[~*%B | ~]%d ~@[~*| %w~]"
                                         (battery-accessible-p) (current-window))
-      *colors* '("black" "red" "Olive" "DarkKhaki" "SteelBlue" "IndianRed" "DarkCyan" "white")
+      *colors* '("black" "red" "YellowGreen" "DarkKhaki" "SteelBlue" "IndianRed" "DarkCyan" "white")
 
       *mouse-focus-policy* :click
 
