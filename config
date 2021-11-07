@@ -17,6 +17,10 @@
 
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
+(defun battery-accessible-p ()
+  (member (battery-portable::battery-info-string)
+          '("(not implemented)") :test #'string=))
+
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
       *message-window-input-gravity* :center
@@ -26,10 +30,13 @@
       *startup-message* "Happy window hacking!"
       *default-bg-color* #x000000
 
+      *mode-line-background-color* "black"
+      *mode-line-foreground-color* "white"
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
       *window-format* "%s %25t |"
-      *screen-mode-line-format* "%B | %d | %w"
+      *screen-mode-line-format* (format nil "~@[~*%B | ~]%d ~@[~*| %w]"
+                                        (battery-accessible-p) (current-window))
       *colors* '("black" "red" "Olive" "DarkKhaki" "SteelBlue" "IndianRed" "DarkCyan" "white")
 
       *mouse-focus-policy* :click
@@ -52,7 +59,7 @@
   (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
 
 (defcommand battery-info-message () ()
-  (unless (member (battery-portable::battery-info-string) '("(not implemented)") :test #'string=)
+  (unless (battery-accessible-p)
     (message (battery-portable::battery-info-string))))
 
 (defvar *battery-thread*
