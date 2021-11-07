@@ -27,19 +27,31 @@
    :name "Battery reporting")
   "A small thread for battery state reporting. Made to get rid of modeline.")
 
-(setf *message-window-gravity* :center
+(setf *max-last-message-size* 200
+      *message-window-gravity* :center
       *message-window-input-gravity* :center
       *input-window-gravity* :center
       *timeout-wait* 2
 
       *startup-message* "Happy window hacking!"
+      *default-bg-color* #x000000
 
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
       *window-format* "%s %25t |"
       *screen-mode-line-format* "%B | %d | %w"
+      *colors* '("black" "red" "Olive" "DarkKhaki" "SteelBlue" "IndianRed" "DarkCyan" "white")
 
-      *mouse-focus-policy* :click)
+      *mouse-focus-policy* :click
+
+      *new-frame-action* :empty
+
+      *show-command-backtrace* t
+
+      *time-month-names* #("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
+      *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
+
+(update-color-map (current-screen))
 
 ;; Command to start Slynk server.
 (defcommand start-slynk () ()
