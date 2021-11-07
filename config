@@ -34,7 +34,7 @@
       *mode-line-foreground-color* "white"
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
-      *window-format* "%s %25t |"
+      *window-format* "%s %c %40t |"
       *screen-mode-line-format* (format nil "~@[~*%B | ~]%d ~@[~*| %w]"
                                         (battery-accessible-p) (current-window))
       *colors* '("black" "red" "Olive" "DarkKhaki" "SteelBlue" "IndianRed" "DarkCyan" "white")
