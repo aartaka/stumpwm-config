@@ -1,5 +1,3 @@
-
-
 (in-package :stumpwm)
 
 ;; Just in case Quicklisp won't be found. Gotta also make this install QL in case it needs to.
@@ -12,8 +10,8 @@
 ;; Important asdf-loads
 (init-load-path "~/git/stumpwm-contrib/")
 (ql:quickload
- '(:cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk :bordeaux-threads)) ; dependencies
-(asdf:load-systems :ttf-fonts :screenshot :battery-portable :binwarp)            ; stumpwm-contribs
+ '(:cl-ppcre :dexador :zpng :alexandria :slynk :bordeaux-threads)) ; dependencies
+(asdf:load-systems :screenshot :battery-portable :binwarp)            ; stumpwm-contribs
 
 (uiop:launch-program '("emacs" "--daemon") :directory (user-homedir-pathname))
 
@@ -176,7 +174,7 @@
         ("C-d" . "Delete"))))
 
 ;; Recommended by Guix Cookbook. Will revisit and test later.
-(setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
-(setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
-(xft:cache-fonts)
+;; (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
+;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
+;; (xft:cache-fonts)
 ;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
