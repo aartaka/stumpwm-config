@@ -1,3 +1,5 @@
+
+
 (in-package :stumpwm)
 
 ;; Just in case Quicklisp won't be found. Gotta also make this install QL in case it needs to.
