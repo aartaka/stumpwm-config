@@ -63,13 +63,14 @@
     (message (battery-portable::battery-info-string))))
 
 (defvar *battery-thread*
-  (bt:make-thread
-   #'(lambda ()
-       (let ((*message-window-gravity* :top-left))
-         (loop :for time := (get-universal-time)
-               :when (= 0 (mod time 40))
-                 :do (battery-info-message))))
-   :name "Battery reporting")
+  (when (battery-accessible-p)
+    (bt:make-thread
+     #'(lambda ()
+         (let ((*message-window-gravity* :top-left))
+           (loop :for time := (get-universal-time)
+                 :when (= 0 (mod time 40))
+                   :do (battery-info-message))))
+     :name "Battery reporting"))
   "A small thread for battery state reporting. Made to get rid of modeline.")
 
 (binwarp:define-binwarp-mode binwarp-mode
