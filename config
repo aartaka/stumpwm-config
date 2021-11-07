@@ -17,16 +17,6 @@
 
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
-(defvar *battery-thread*
-  (bt:make-thread
-   #'(lambda ()
-       (let ((*message-window-gravity* :top-left))
-         (loop :for time := (get-universal-time)
-               :when (= 0 (mod time 40))
-                 :do (battery-info-message))))
-   :name "Battery reporting")
-  "A small thread for battery state reporting. Made to get rid of modeline.")
-
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
       *message-window-input-gravity* :center
@@ -62,7 +52,18 @@
   (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
 
 (defcommand battery-info-message () ()
-  (message (battery-portable::battery-info-string)))
+  (unless (member (battery-portable::battery-info-string) '("(not implemented)") :test #'string=)
+    (message (battery-portable::battery-info-string))))
+
+(defvar *battery-thread*
+  (bt:make-thread
+   #'(lambda ()
+       (let ((*message-window-gravity* :top-left))
+         (loop :for time := (get-universal-time)
+               :when (= 0 (mod time 40))
+                 :do (battery-info-message))))
+   :name "Battery reporting")
+  "A small thread for battery state reporting. Made to get rid of modeline.")
 
 (binwarp:define-binwarp-mode binwarp-mode
     "m" (:map *root-map* :redefine-bindings t)
