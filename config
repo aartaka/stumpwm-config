@@ -99,7 +99,7 @@
                (,(kbd "s-m")   "binwarp-mode")
                (,(kbd "s-s")   "timestamp-screenshot")
                (,(kbd "s-e")   ,(concat "exec emacsclient -cn -a '' "
-                                        "-F '((font . \"Hack-17\") (vertical-scroll-bars) "
+                                        "-F '((font . \"monospace-17\") (vertical-scroll-bars) "
                                         "(tool-bar-lines) (menu-bar-lines))'"))
                (,(kbd "s-C-e") "exec emacs")
                (,(kbd "s-C-t") "exec st")
