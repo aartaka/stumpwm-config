@@ -148,6 +148,16 @@
                        '("Firefox" "IceCat" "Nightly")
                        :test #'string-equal)
                (not binwarp:*binwarp-mode-p*)))
+        ;; The native ones
+        ("C-n" . "Down")
+        ("C-p" . "Up")
+        ("C-b" . "Left")
+        ("C-f" . "Right")
+        ("M-<" . "Home")
+        ("M->" . "End")
+        ("C-a" . "Home")
+        ("C-e" . "End")
+        ("C-d" . "Delete")
         ;; Less-obvious native ones
         ("M-." . "M-Right")  ; Forward in history
         ("M-," . "M-Left")   ; Back in history
