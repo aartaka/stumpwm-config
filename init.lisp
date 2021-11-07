@@ -3,18 +3,18 @@
 ;; Just in case Quicklisp won't be found. Gotta also make this install QL in case it needs to.
 #-quicklisp
 (let ((quicklisp-init
-        (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))
+       (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
 ;; Important asdf-loads
-(init-load-path "~/git-cloned/stumpwm-contrib/")
-(asdf:load-systems :cl-ppcre :dexador :clx-truetype :zpng :alexandria
-                             :slynk :bordeaux-threads                           ; dependencies
-                   :ttf-fonts :screenshot :battery-portable :binwarp)           ; stumpwm-contribs
+(init-load-path "~/git/stumpwm-contrib/")
+(ql:quickload
+ '(:cl-ppcre :dexador :clx-truetype :zpng :alexandria :slynk :bordeaux-threads)) ; dependencies
+(asdf:load-systems :ttf-fonts :screenshot :battery-portable :binwarp)            ; stumpwm-contribs
 
-(defvar *dict-url* "http://wordnetweb.princeton.edu/perl/webwn?s="
-  "The URL for the english dict lookups")
+(uiop:launch-program '("emacs" "--daemon") :directory (user-homedir-pathname))
+
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
 (defvar *battery-thread*
@@ -70,23 +70,6 @@
   ((kbd "RET") "ratclick 1")
   ((kbd "SPC") "ratclick 3"))
 
-(defcommand definition (word) ((:string "Definition of: "))
-  (flet ((cleanup-definition (string)
-           (reduce #'(lambda (string replacements)
-                       (ppcre:regex-replace-all (first replacements)
-                                                string
-                                                (second replacements)))
-                   '(("</h3[^>]*>" "^r")
-                     ("<h3[^>]*>" "^R")
-                     ("(<[^>]*>|S:|\\([^ )]\\))" ""))
-                   :initial-value string)))
-    (let ((*timeout-wait* 20))
-      (message "~{~a~%~}"
-               (mapcar #'cleanup-definition
-                       (ppcre:all-matches-as-strings
-                        "(<h3[^>]*>.*</h3.*>|<li[^>]*>.*</li.*>)"
-                        (dex:get (concatenate 'string *dict-url* word))))))))
-
 (set-prefix-key (kbd "s-t"))
 
 (dolist
@@ -109,20 +92,16 @@
                                         "(tool-bar-lines) (menu-bar-lines))'"))
                (,(kbd "s-C-e") "exec emacs")
                (,(kbd "s-C-t") "exec st")
+               (,(kbd "s-C-n") "exec nyxt")
+               (,(kbd "s-C-f") "exec firefox")
                (,(kbd "s-C-i") "exec icecat")
                (,(kbd "s-C-u") "exec urxvt")
                (,(kbd "s-C-k") "exec keepassxc")
                (,(kbd "s-C-l") "exec libreoffice")
                (,(kbd "s-C-g") "exec gimp")
-               (,(kbd "s-C-5") ,(concat "exec guix environment "
-                                        "-l projects/throwaway-guix-packages/cl-webkit.scm "
-                                        "-- emacs"))
-               ;; guix environment -l ~/git-cloned/nyxt/build-scripts/guix.scm glib-networking --ad-hoc nss-certs glib-networking -- emacs
-               (,(kbd "s-C-7") ,(concat "exec guix environment "
-                                        "-l ~/git-cloned/nyxt/build-scripts/guix.scm "
-                                        "glib-networking --ad-hoc nss-certs glib-networking "
-                                        "-- emacs"))
-               ;; TODO: add s-C-8 for development profile
+               (,(kbd "<XF86AudioRaiseVolume>") . "exec pamixer --allow-boost -i 5")
+               (,(kbd "<XF86AudioLowerVolume>") . "exec pamixer -d 5")
+               (,(kbd "<XF86AudioMute>") . "exec bash ~/.config/emacs/mute.sh")
                (,(kbd "s-SPC") "pull-hidden-next")
                (,(kbd "s-M-p") "prev-in-frame")
                (,(kbd "s-M-n") "next-in-frame")
@@ -151,13 +130,6 @@
                        '("Firefox" "IceCat" "Nightly")
                        :test #'string-equal)
                (not binwarp:*binwarp-mode-p*)))
-        ;; The native ones
-        ("C-n" . "Down")
-        ("C-p" . "Up")
-        ("C-b" . "Left")
-        ("C-f" . "Right")
-        ("M-<" . "Home")
-        ("M->" . "End")
         ;; Less-obvious native ones
         ("M-." . "M-Right")  ; Forward in history
         ("M-," . "M-Left")   ; Back in history
@@ -185,7 +157,21 @@
         ("C-M-e" . "C-End")  ; Jump to the end of the text
         ("C-SPC" . "F7")     ; Caret mode. Can be handy for text selection.
         ;; Unbind the quirky original keybindings
-        ("C-t" . "ESC"))))
+        ("C-t" . "ESC")
+        ("C-q" . "ESC"))))
+
+(define-remapped-keys
+    `((,(lambda (win) (declare (ignorable win)) (not binwarp:*binwarp-mode-p*))
+        ;; The native ones
+        ("C-n" . "Down")
+        ("C-p" . "Up")
+        ("C-b" . "Left")
+        ("C-f" . "Right")
+        ("M-<" . "Home")
+        ("M->" . "End")
+        ("C-a" . "Home")
+        ("C-e" . "End")
+        ("C-d" . "Delete"))))
 
 ;; Recommended by Guix Cookbook. Will revisit and test later.
 (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
