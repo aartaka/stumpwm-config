@@ -157,7 +157,10 @@
         ("C-q" . "ESC"))))
 
 (define-remapped-keys
-    `((,(lambda (win) (declare (ignorable win)) (not binwarp:*binwarp-mode-p*))
+    `((,(lambda (win)
+          (declare (ignorable win))
+          (and (not (ppcre:all-matches "[Ee]macs|[Nn]yxt" "Nyxt"))
+               (not binwarp:*binwarp-mode-p*)))
         ;; The native ones
         ("C-n" . "Down")
         ("C-p" . "Up")
