@@ -19,7 +19,7 @@
 
 (defun battery-accessible-p ()
   (not (member (battery-portable::battery-info-string)
-           '("(not implemented)") :test #'string=)))
+               '("(not implemented)" "(no battery info)") :test #'equalp)))
 
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
@@ -60,8 +60,7 @@
   (screenshot:screenshot-window (format nil "~X.png" (get-universal-time))))
 
 (defcommand battery-info-message () ()
-  (unless (battery-accessible-p)
-    (message (battery-portable::battery-info-string))))
+  (message (battery-portable::battery-info-string)))
 
 (defvar *battery-thread*
   (when (battery-accessible-p)
@@ -193,3 +192,4 @@
 ;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
 ;; (xft:cache-fonts)
 ;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
+(battery-portable::battery-info-string)
