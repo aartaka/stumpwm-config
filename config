@@ -49,7 +49,7 @@
       *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
 
 (update-color-map (current-screen))
-(mode-line)
+(enable-mode-line (current-screen) (current-head) t)
 
 ;; Command to start Slynk server.
 (defcommand start-slynk () ()
