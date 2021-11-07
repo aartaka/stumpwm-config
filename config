@@ -84,7 +84,6 @@
                (,(kbd "s-g")   ,*groups-map*)
                (,(kbd "s-x")   ,*exchange-window-map*)
                (,(kbd "s-q")   "send-raw-key")
-               (,(kbd "s-d")   "definition")
                (,(kbd "s-m")   "binwarp-mode")
                (,(kbd "s-s")   "timestamp-screenshot")
                (,(kbd "s-e")   ,(concat "exec emacsclient -cn -a '' "
