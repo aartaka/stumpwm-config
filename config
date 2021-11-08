@@ -32,12 +32,13 @@
 
       *mode-line-background-color* "black"
       *mode-line-foreground-color* "white"
+      *mode-line-border-width* 0
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
-      *window-format* "%s %c %t |"
-      *screen-mode-line-format* (format nil "~@[~*%B | ~]%d ~@[~*| %w~]"
+      *window-format* "<%m%s %t>"
+      *screen-mode-line-format* (format nil "~@[~* %B ~][%d]~@[~* %w~]"
                                         (battery-accessible-p) (current-window))
-      *colors* '("black" "red" "YellowGreen" "DarkKhaki" "SteelBlue" "IndianRed" "DarkCyan" "white")
+      *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white")
 
       *mouse-focus-policy* :click
 
