@@ -87,6 +87,29 @@
 (defcommand battery-info-message () ()
   (message (battery-portable::battery-info-string)))
 
+(defvar *master-password* nil
+  "The master password for the KeePassXC file.")
+
+(defcommand copy-password () ()
+  (let* ((password-file (at-home "Documents/p.kdbx"))
+         (password (or *master-password*
+                       (setf *master-password*
+                             (read-one-line (current-screen) (concat password-file " password:")
+                                            :password t))))
+         (entries (with-input-from-string (st password)
+                    (remove-if
+                     (lambda (s) (uiop:string-suffix-p s "/"))
+                     (uiop:split-string
+                      (uiop:run-program (list "keepassxc-cli" "ls" password-file)
+                                        :input st :output '(:string :stripped t))
+                      :separator '(#\Newline))))))
+    (with-input-from-string (st password)
+      (uiop:run-program (list "keepassxc-cli" "clip" password-file
+                              (string-trim '(#\Space)
+                                           (read-one-line (current-screen) "entry: "
+                                                          :completions entries :require-match t)))
+                        :input st))))
+
 (defvar *battery-thread*
   (when (battery-accessible-p)
     (bt:make-thread
@@ -132,6 +155,7 @@
                (,(kbd "s-q")   "send-raw-key")
                (,(kbd "s-m")   "binwarp-mode")
                (,(kbd "s-s")   "timestamp-screenshot")
+               (,(kbd "s-p")   "copy-password")
                (,(kbd "XF86AudioRaiseVolume") "exec pamixer --allow-boost -i 5")
                (,(kbd "XF86AudioLowerVolume") "exec pamixer -d 5")
                (,(kbd "XF86AudioMute") "exec bash ~/.config/stumpwm/mute.sh")
