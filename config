@@ -7,8 +7,14 @@
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
+(defun at-home (path)
+  (concat (namestring (user-homedir-pathname)) path))
+
+(defun at-config (path)
+  (concat (at-home ".config/stumpwm/") path))
+
 ;; Important asdf-loads
-(init-load-path "~/git/stumpwm-contrib/")
+(init-load-path (at-home "git/stumpwm-contrib/"))
 (ql:quickload
  '(:cl-ppcre :dexador :zpng :alexandria :slynk :bordeaux-threads)) ; dependencies
 (asdf:load-systems :screenshot :battery-portable :binwarp)            ; stumpwm-contribs
@@ -52,7 +58,7 @@
 (enable-mode-line (current-screen) (current-head) t)
 
 (defun generate-background-png (colors)
-  (let ((pathname (uiop:parse-native-namestring "/home/aartaka/.config/stumpwm/background.png"))
+  (let ((pathname (at-home ".config/stumpwm/background.png"))
         (height (slot-value (current-head) 'stumpwm::height))
         (width (slot-value (current-head) 'stumpwm::width)))
     (with-open-file (file pathname :direction :output
