@@ -184,8 +184,6 @@
         ("C-o" . "C-t")      ; New tab
         ("C-k" . "C-w")      ; Close current tab
         ("C-1" . "F11")      ; Fullscreen
-        ("C-r" . "C-M-R")    ; Reader-mode?
-        ("C-R" . "C-M-r")    ; Reload the page
         ;; The ones that I owe to Vimium
         ("C-?" . "?")        ; Vimium help screen
         ("M-l" . "F")        ; Open the link in the new tab
