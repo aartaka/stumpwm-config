@@ -39,7 +39,7 @@
       *mode-line-border-width* 0
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
-      *window-format* "<%m%s %50t... >"
+      *window-format* "<%m%s %40t >"
       *screen-mode-line-format* (format nil "~@[~* %B ~][%d] %w" (battery-accessible-p))
       *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white")
 
