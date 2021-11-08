@@ -39,9 +39,9 @@
       *mode-line-border-width* 0
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
-      *window-format* "<%m%s %40t >"
-      *screen-mode-line-format* (format nil "~@[~* %B ~][%d] %w" (battery-accessible-p))
-      *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white")
+      *window-format* "^78<^07%m%s %40t ^78>^70^b"
+      *screen-mode-line-format* (format nil "^71~@[~*[^07%B^71]^70 ~]^71[^07 %d ^71]^70 %w" (battery-accessible-p))
+      *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white" "gray")
 
       *mouse-focus-policy* :click
 
