@@ -13,8 +13,6 @@
  '(:cl-ppcre :dexador :zpng :alexandria :slynk :bordeaux-threads)) ; dependencies
 (asdf:load-systems :screenshot :battery-portable :binwarp)            ; stumpwm-contribs
 
-(uiop:launch-program '("emacs" "--daemon") :directory (user-homedir-pathname))
-
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
 (defun battery-accessible-p ()
