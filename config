@@ -112,17 +112,6 @@
         (uiop:run-program (list "keepassxc-cli" "clip" password-file entry)
                           :input st)))))
 
-(defvar *battery-thread*
-  (when (battery-accessible-p)
-    (bt:make-thread
-     #'(lambda ()
-         (let ((*message-window-gravity* :top-left))
-           (loop :for time := (get-universal-time)
-                 :when (= 0 (mod time 40))
-                   :do (battery-info-message))))
-     :name "Battery reporting"))
-  "A small thread for battery state reporting. Made to get rid of modeline.")
-
 (binwarp:define-binwarp-mode binwarp-mode
     "m" (:map *root-map* :redefine-bindings t)
   ((kbd "n") "binwarp down")
