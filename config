@@ -90,12 +90,20 @@
 (defvar *master-password* nil
   "The master password for the KeePassXC file.")
 
+(defun get-master-password (password-file)
+  (loop for password
+          = *master-password*
+            then (read-one-line (current-screen) (concat password-file " password: ") :password t)
+        until (when password
+                (with-input-from-string (st password)
+                  (ignore-errors
+                   (uiop:run-program (list "keepassxc-cli" "ls" password-file)
+                                     :input st :output '(:string :stripped t)))))
+        finally (return (setf *master-password* password))))
+
 (defcommand copy-password () ()
   (let* ((password-file (at-home "Documents/p.kdbx"))
-         (password (or *master-password*
-                       (setf *master-password*
-                             (read-one-line (current-screen) (concat password-file " password:")
-                                            :password t))))
+         (password (get-master-password password-file))
          (entries (with-input-from-string (st password)
                     (remove-if
                      (lambda (s) (uiop:string-suffix-p s "/"))
