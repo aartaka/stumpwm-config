@@ -83,6 +83,13 @@
 (update-color-map (current-screen))
 (enable-mode-line (current-screen) (current-head) t)
 
+(defvar *mode-line-update-thread*
+  (bt:make-thread
+   (lambda ()
+     (loop :while t
+           :do (stumpwm::update-all-mode-lines)
+           :do (sleep 5)))))
+
 (defun generate-background-png (colors)
   (let ((pathname (at-home ".config/stumpwm/background.png"))
         (height (slot-value (current-head) 'stumpwm::height))
