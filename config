@@ -25,6 +25,22 @@
   (not (member (battery-portable::battery-info-string)
                '("(not implemented)" "(no battery info)") :test #'equalp)))
 
+(defun cpu-dangerous-p ()
+  (> (cpu::current-cpu-usage) 80))
+
+(defun temp-dangerous-p ()
+  ;; copy-pasted from cpu module
+  (let ((temp (case (car cpu::*acpi-thermal-zone*)
+                (:procfs (parse-integer
+                          (cpu::get-proc-file-field (cdr cpu::*acpi-thermal-zone*) "temperature")
+                          :junk-allowed t))
+                (:sysfs   (with-open-file (f (cdr cpu::*acpi-thermal-zone*))
+                            (/ (read f) 1000))))))
+    (> temp 60)))
+
+(defun ram-dangerous-p ()
+  (> (third (mem::mem-usage)) 8/10))
+
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
       *message-window-input-gravity* :center
@@ -40,11 +56,17 @@
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
       *window-format* "^78<^07%m%s %40t ^78>^70^b"
-      mem::*mem-modeline-fmt* "RAM:%p"
+      mem::*mem-modeline-fmt* "^71!RAM%p!^70"
       mem::*mem-usage-bar-empty* #\Space
       cpu::*cpu-modeline-fmt* "%c"
-      cpu::*cpu-usage-modeline-fmt* "CPU:^[~A~3D%^]"
-      *screen-mode-line-format* (format nil "^71~@[~*[^70 %B ^71]^70 ~]^71[^70%M%C^71]^70 ^71[^07 %d ^71]^70 %w" (battery-accessible-p))
+      cpu::*cpu-usage-modeline-fmt* "^71!CPU^[~A~3D%^]!^70"
+      *screen-mode-line-format* (format
+                                 nil "~@[~*^71[^70 %B ^71]^70 ~]~@[~*%C ~]~@[^71!TEMP ~a!^70 ~]~@[~*%M ~]^71[^07 %d ^71]^70 %w"
+                                 (battery-accessible-p)
+                                 (cpu-dangerous-p)
+                                 (when (temp-dangerous-p)
+                                   (cpu::fmt-cpu-temp))
+                                 (ram-dangerous-p))
       *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white" "gray")
 
       *mouse-focus-policy* :click
