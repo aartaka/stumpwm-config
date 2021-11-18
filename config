@@ -17,7 +17,7 @@
 (init-load-path (at-home "git/stumpwm-contrib/"))
 (ql:quickload
  '(:cl-ppcre :dexador :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
-(asdf:load-systems :screenshot :battery-portable :binwarp)            ; stumpwm-contribs
+(asdf:load-systems :screenshot :battery-portable :binwarp :mem :cpu)            ; stumpwm-contribs
 
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
@@ -40,7 +40,11 @@
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
       *window-format* "^78<^07%m%s %40t ^78>^70^b"
-      *screen-mode-line-format* (format nil "^71~@[~*[^70 %B ^71]^70 ~]^71[^07 %d ^71]^70 %w" (battery-accessible-p))
+      mem::*mem-modeline-fmt* "RAM:%p"
+      mem::*mem-usage-bar-empty* #\Space
+      cpu::*cpu-modeline-fmt* "%c"
+      cpu::*cpu-usage-modeline-fmt* "CPU:^[~A~3D%^]"
+      *screen-mode-line-format* (format nil "^71~@[~*[^70 %B ^71]^70 ~]^71[^70%M%C^71]^70 ^71[^07 %d ^71]^70 %w" (battery-accessible-p))
       *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white" "gray")
 
       *mouse-focus-policy* :click
