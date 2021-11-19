@@ -26,7 +26,7 @@
                '("(not implemented)" "(no battery info)") :test #'equalp)))
 
 (defun cpu-dangerous-p ()
-  (> (cpu::current-cpu-usage) 80))
+  (> (cpu::current-cpu-usage) 60))
 
 (defun temp-dangerous-p ()
   ;; copy-pasted from cpu module
@@ -39,7 +39,7 @@
     (> temp 60)))
 
 (defun ram-dangerous-p ()
-  (> (third (mem::mem-usage)) 8/10))
+  (> (third (mem::mem-usage)) 6/10))
 
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
