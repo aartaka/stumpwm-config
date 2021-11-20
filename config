@@ -90,23 +90,6 @@
            :do (stumpwm::update-all-mode-lines)
            :do (sleep 5)))))
 
-(defun generate-background-png (colors)
-  (let ((pathname (at-home ".config/stumpwm/background.png"))
-        (height (slot-value (current-head) 'stumpwm::height))
-        (width (slot-value (current-head) 'stumpwm::width)))
-    (with-open-file (file pathname :direction :output
-                                   :if-does-not-exist :create
-                                   :if-exists :supersede
-                                   :element-type '(unsigned-byte 8))
-      (let ((png (make-instance 'zpng:pixel-streamed-png
-                                :height height :width width)))
-        (loop initially (zpng:start-png png file)
-              for row below height
-              do (loop for col below width
-                       do (zpng:write-pixel (alexandria:random-elt colors) png))
-              finally (progn (zpng:finish-png png)
-                             (return pathname)))))))
-
 ;; Command to start Slynk server.
 (defcommand start-slynk () ()
   (slynk:create-server :port *slynk-port*
