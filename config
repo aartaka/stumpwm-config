@@ -143,6 +143,11 @@
   ((kbd "f") "binwarp right")
   ((kbd "b") "binwarp left")
 
+  ((kbd "C-n") "binwarp down")
+  ((kbd "C-p") "binwarp up")
+  ((kbd "C-f") "binwarp right")
+  ((kbd "C-b") "binwarp left")
+
   ((kbd "0") "init-binwarp")
   ((kbd "TAB") "back-binwarp")
 
@@ -206,7 +211,8 @@
                (,(kbd "s-i")   "info")
                (,(kbd "s-I")   "show-window-properties")
                (,(kbd "s-#")   "mark")
-               (,(kbd "s-N")   "number")))
+               (,(kbd "s-N")   "number")
+               (,(kbd "s-RET")   "ratclick 1")))
   (apply (alexandria:curry #'define-key *top-map*) binding))
 
 ;; This section is dependent on Vimium-FF
