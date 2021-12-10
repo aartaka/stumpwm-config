@@ -109,29 +109,36 @@
 (defun get-master-password (password-file)
   (loop for password
           = *master-password*
-            then (read-one-line (current-screen) (concat password-file " password: ") :password t)
-        until (when password
-                (with-input-from-string (st password)
-                  (ignore-errors
-                   (uiop:run-program (list "keepassxc-cli" "ls" password-file)
-                                     :input st :output '(:string :stripped t)))))
+          then (read-one-line (current-screen) (concat password-file " password: ") :password t)
+          for attempt upto 3
+          until (or
+                 (= attempt 3)
+                 (when password
+                   (with-input-from-string (st password)
+                                           (ignore-errors
+                                             (uiop:run-program (list "keepassxc-cli" "ls" password-file)
+                                                               :input st :output '(:string :stripped t))))))
         finally (return (setf *master-password* password))))
 
 (defcommand copy-password () ()
   (let* ((password-file (at-home "Documents/p.kdbx"))
          (password (get-master-password password-file))
-         (entries (with-input-from-string (st password)
-                    (remove-if
-                     (lambda (s) (uiop:string-suffix-p s "/"))
-                     (uiop:split-string
-                      (uiop:run-program (list "keepassxc-cli" "ls" password-file)
-                                        :input st :output '(:string :stripped t))
-                      :separator '(#\Newline)))))
-         (entry (unless (equal entries '("NIL"))
+         (entries (unless (or (equal password '("NIL"))
+                              (equal password nil))
+                    (with-input-from-string (st password)
+                                            (remove-if
+                                             (lambda (s) (uiop:string-suffix-p s "/"))
+                                             (uiop:split-string
+                                              (uiop:run-program (list "keepassxc-cli" "ls" password-file)
+                                                                :input st :output '(:string :stripped t))
+                                              :separator '(#\Newline))))))
+         (entry (unless (or (equal entries '("NIL"))
+                            (equal entries nil))
                   (string-trim '(#\Space)
                                (read-one-line (current-screen) "entry: "
                                               :completions entries :require-match t)))))
-    (unless (equal entry "NIL")
+    (unless (or (equal entry '("NIL"))
+                (equal entry nil))
       (with-input-from-string (st password)
         (uiop:run-program (list "keepassxc-cli" "clip" password-file entry)
                           :input st)))))
