@@ -187,9 +187,9 @@
                (,(kbd "s-m")   "binwarp-mode")
                (,(kbd "s-s")   "timestamp-screenshot")
                (,(kbd "s-p")   "copy-password")
-               (,(kbd "XF86AudioRaiseVolume") "exec pamixer --allow-boost -i 5")
-               (,(kbd "XF86AudioLowerVolume") "exec pamixer -d 5")
-               (,(kbd "XF86AudioMute") "exec bash ~/.config/stumpwm/mute.sh")
+               (,(kbd "s-F3")  "exec pamixer --allow-boost -i 5")
+               (,(kbd "s-F2")  "exec pamixer -d 5")
+               (,(kbd "s-F1")  "exec bash ~/.config/stumpwm/mute.sh")
                (,(kbd "s-e")   ,(concat "exec emacsclient -cn -a '' "
                                         "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
                                         "(tool-bar-lines) (menu-bar-lines))'"))
