@@ -98,7 +98,7 @@
 (defcommand timestamp-screenshot () ()
   (let ((file-name (format nil (at-home "Documents/screenshots/~X.png") (get-universal-time))))
     (screenshot:screenshot-window file-name)
-    (message "Screenshot saved as ~a" file-name)))
+    (uiop:launch-program (list "gimp" file-name))))
 
 (defcommand battery-info-message () ()
   (message (battery-portable::battery-info-string)))
