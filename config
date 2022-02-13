@@ -16,7 +16,7 @@
 ;; Important asdf-loads
 (init-load-path (at-home "git/stumpwm-contrib/"))
 (ql:quickload
- '(:cl-ppcre :dexador :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
+ '(:cl-ppcre :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
 (asdf:load-systems :screenshot :battery-portable :binwarp :mem :cpu)            ; stumpwm-contribs
 
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
