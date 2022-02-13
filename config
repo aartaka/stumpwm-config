@@ -272,3 +272,16 @@
 ;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
 ;; (xft:cache-fonts)
 ;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
+
+(defvar *screen-refresh-thread* nil
+  "The thread to constantly move mouse a little to cause the screen stay on.")
+
+(define-interactive-keymap screen-lock-less-mode
+    (:on-enter (lambda ()
+                 (setf *screen-refresh-thread*
+                       (bt:make-thread (lambda ()
+                                         (loop do (binwarp:randwarp :up 1 1)
+                                               do (sleep 550))))))
+     :on-exit (lambda ()
+                (bt:destroy-thread *screen-refresh-thread*)
+                (setf *screen-refresh-thread* nil))))
