@@ -45,6 +45,7 @@
       *screen-mode-line-format* (format
                                  nil "~@[~*^71[^70 %B ^71]^07 ~]%M ^71[^07 %d ^71]^70 %w"
                                  (battery-accessible-p))
+      ;;         0       1     2             3       4             5           6         7       8
       *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white" "gray")
 
       *mouse-focus-policy* :click
