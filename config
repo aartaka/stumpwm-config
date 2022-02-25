@@ -174,7 +174,7 @@
                                         "(tool-bar-lines) (menu-bar-lines))'"))
                (,(kbd "s-C-e") "exec emacs")
                (,(kbd "s-C-t") "exec st")
-               (,(kbd "s-C-n") "exec nyxt")
+               (,(kbd "s-C-n") "exec nyxt -v")
                (,(kbd "s-C-u") "exec urxvt")
                (,(kbd "s-C-k") "exec keepassxc")
                (,(kbd "s-C-l") "exec libreoffice")
