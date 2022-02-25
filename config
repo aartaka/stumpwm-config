@@ -147,10 +147,6 @@
 
 (set-prefix-key (kbd "s-t"))
 
-(define-keysym #x1008ff11 "XF86AudioLowerVolume")
-(define-keysym #x1008ff12 "XF86AudioMute")
-(define-keysym #x1008ff13 "XF86AudioRaiseVolume")
-
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-a")   "time")
