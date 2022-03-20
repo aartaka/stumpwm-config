@@ -260,3 +260,5 @@
      :on-exit (lambda ()
                 (bt:destroy-thread *screen-refresh-thread*)
                 (setf *screen-refresh-thread* nil))))
+
+(setf (uiop:getenv "MOZ_USE_XINPUT2") "1")
