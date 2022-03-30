@@ -261,4 +261,6 @@
 
 (setf (uiop:getenv "MOZ_USE_XINPUT2") "1")
 
-(uiop:launch-program "offlineimap")
+(bt:make-thread
+ (lambda ()
+   (uiop:launch-program "offlineimap")))
