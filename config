@@ -260,7 +260,3 @@
                 (setf *screen-refresh-thread* nil))))
 
 (setf (uiop:getenv "MOZ_USE_XINPUT2") "1")
-
-(bt:make-thread
- (lambda ()
-   (uiop:launch-program "offlineimap")))
