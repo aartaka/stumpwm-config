@@ -67,8 +67,8 @@
                        :dont-close t))
 
 (defcommand timestamp-screenshot () ()
-  (let ((file-name (format nil #p"~/Documents/screenshots/~X.png" (get-universal-time))))
-    (screenshot:screenshot-window file-name)
+  (let ((file-name (format nil "~/Documents/screenshots/~X.png" (get-universal-time))))
+    (screenshot:screenshot-window  (uiop:parse-native-namestring file-name))
     (uiop:launch-program (list "gimp" file-name))))
 
 (defcommand battery-info-message () ()
