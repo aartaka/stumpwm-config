@@ -7,14 +7,8 @@
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
-(defun at-home (path)
-  (concat (namestring (user-homedir-pathname)) path))
-
-(defun at-config (path)
-  (concat (at-home ".config/stumpwm/") path))
-
 ;; Important asdf-loads
-(init-load-path (at-home "git/stumpwm-contrib/"))
+(init-load-path #p"~/git/stumpwm-contrib/")
 (ql:quickload
  '(:cl-ppcre :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
 (asdf:load-systems :screenshot :battery-portable :binwarp :mem :cpu)            ; stumpwm-contribs
@@ -73,7 +67,7 @@
                        :dont-close t))
 
 (defcommand timestamp-screenshot () ()
-  (let ((file-name (format nil (at-home "Documents/screenshots/~X.png") (get-universal-time))))
+  (let ((file-name (format nil #p"~/Documents/screenshots/~X.png" (get-universal-time))))
     (screenshot:screenshot-window file-name)
     (uiop:launch-program (list "gimp" file-name))))
 
