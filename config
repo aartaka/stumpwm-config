@@ -149,7 +149,6 @@
                (,(kbd "s-!")   "exec")
                (,(kbd "s-h")   ,*help-map*)
                (,(kbd "s-g")   ,*groups-map*)
-               (,(kbd "s-x")   ,*exchange-window-map*)
                (,(kbd "s-q")   "send-raw-key")
                (,(kbd "s-m")   "binwarp-mode")
                (,(kbd "s-s")   "timestamp-screenshot")
