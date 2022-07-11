@@ -7,8 +7,11 @@
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
+(defun home (path)
+  (namestring (uiop:merge-pathnames* path (user-homedir-pathname))))
+
 ;; Important asdf-loads
-(init-load-path #p"~/git/stumpwm-contrib/")
+(init-load-path (home "/git/stumpwm-contrib/"))
 (ql:quickload
  '(:cl-ppcre :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
 (asdf:load-systems :screenshot :battery-portable :binwarp :mem :cpu)            ; stumpwm-contribs
@@ -67,8 +70,8 @@
                        :dont-close t))
 
 (defcommand timestamp-screenshot () ()
-  (let ((file-name (format nil "~/Documents/screenshots/~X.png" (get-universal-time))))
-    (screenshot:screenshot-window  (uiop:parse-native-namestring file-name))
+  (let ((file-name (format nil (home "/Documents/screenshots/~X.png") (get-universal-time))))
+    (screenshot:screenshot-window  file-name)
     (uiop:launch-program (list "gimp" file-name))))
 
 (defcommand battery-info-message () ()
@@ -92,7 +95,7 @@
         finally (return (setf *master-password* password))))
 
 (defcommand copy-password () ()
-  (let* ((password-file (at-home "Documents/p.kdbx"))
+  (let* ((password-file (home "Documents/p.kdbx"))
          (password (get-master-password password-file))
          (entries (unless (or (equal password '("NIL"))
                               (equal password nil))
