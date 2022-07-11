@@ -11,10 +11,15 @@
   (namestring (uiop:merge-pathnames* path (user-homedir-pathname))))
 
 ;; Important asdf-loads
-(init-load-path (home "/git/stumpwm-contrib/"))
+(init-load-path (pathname (home "/git/stumpwm-contrib/")))
 (ql:quickload
  '(:cl-ppcre :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
-(asdf:load-systems :screenshot :battery-portable :binwarp :mem :cpu)            ; stumpwm-contribs
+
+;; On Guix, all the SBCL FASLs are put into read-only directories,
+;; causing compilation errors. Using `asdf:load-source-op' helps that,
+;; as loading from source does not cause re-compilation.
+(dolist (name '(:screenshot :battery-portable :binwarp :mem :cpu)) ; stumpwm-contribs
+  (asdf:oos 'asdf:load-source-op name))
 
 (defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
