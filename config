@@ -111,8 +111,8 @@
     (unless (or (equal entry '("NIL"))
                 (equal entry nil))
       (with-input-from-string (st password)
-        (uiop:run-program (list "keepassxc-cli" "clip" password-file entry)
-                          :input st)))))
+        (uiop:launch-program (list "keepassxc-cli" "clip" password-file entry)
+                             :input st)))))
 
 (binwarp:define-binwarp-mode binwarp-mode
     "m" (:map *root-map* :redefine-bindings t)
