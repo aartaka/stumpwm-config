@@ -8,20 +8,28 @@
     (load quicklisp-init)))
 
 (defun home (path)
-  (namestring (uiop:merge-pathnames* path (user-homedir-pathname))))
+  (namestring (uiop:merge-pathnames* (if (eql #\/ (elt path 0))
+                                         (subseq path 1)
+                                         path)
+                                     (user-homedir-pathname))))
 
 ;; Important asdf-loads
-(init-load-path (pathname (home "/git/stumpwm-contrib/")))
 (ql:quickload
  '(:cl-ppcre :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
 
+(defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
+
+;; Command to start Slynk server.
+(defcommand start-slynk () ()
+  (slynk:create-server :port *slynk-port*
+                       :dont-close t))
+
+(init-load-path (home "/git/stumpwm-contrib/"))
 ;; On Guix, all the SBCL FASLs are put into read-only directories,
 ;; causing compilation errors. Using `asdf:load-source-op' helps that,
 ;; as loading from source does not cause re-compilation.
-(dolist (name '(:screenshot :battery-portable :binwarp :mem :cpu)) ; stumpwm-contribs
+(dolist (name '(:battery-portable :binwarp :mem :cpu :screenshot)) ; stumpwm-contribs
   (asdf:oos 'asdf:load-source-op name))
-
-(defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
 
 (defun battery-accessible-p ()
   (not (member (battery-portable::battery-info-string)
@@ -69,11 +77,6 @@
            :do (stumpwm::update-all-mode-lines)
            :do (sleep 5)))))
 
-;; Command to start Slynk server.
-(defcommand start-slynk () ()
-  (slynk:create-server :port *slynk-port*
-                       :dont-close t))
-
 (defcommand timestamp-screenshot () ()
   (let ((file-name (format nil (home "/Documents/screenshots/~X.png") (get-universal-time))))
     (screenshot:screenshot-window  file-name)
@@ -100,7 +103,7 @@
         finally (return (setf *master-password* password))))
 
 (defcommand copy-password () ()
-  (let* ((password-file (home "Documents/p.kdbx"))
+  (let* ((password-file (home "/Documents/p.kdbx"))
          (password (get-master-password password-file))
          (entries (unless (or (equal password '("NIL"))
                               (equal password nil))
