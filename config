@@ -15,25 +15,7 @@
 
 ;; Important asdf-loads
 (ql:quickload
- '(:cl-ppcre :zpng :alexandria :serapeum :slynk :bordeaux-threads)) ; dependencies
-
-(defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
-
-;; Command to start Slynk server.
-(defcommand start-slynk () ()
-  (slynk:create-server :port *slynk-port*
-                       :dont-close t))
-
-(init-load-path (home "/git/stumpwm-contrib/"))
-;; On Guix, all the SBCL FASLs are put into read-only directories,
-;; causing compilation errors. Using `asdf:load-source-op' helps that,
-;; as loading from source does not cause re-compilation.
-(dolist (name '(:battery-portable :binwarp :mem :cpu :screenshot)) ; stumpwm-contribs
-  (asdf:oos 'asdf:load-source-op name))
-
-(defun battery-accessible-p ()
-  (not (member (battery-portable::battery-info-string)
-               '("(not implemented)" "(no battery info)") :test #'equalp)))
+ '(:cl-ppcre :zpng :alexandria :serapeum :bordeaux-threads)) ; dependencies
 
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
@@ -50,9 +32,7 @@
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
       *window-format* "^78<^07%m%s %40t ^78>^70^b"
-      mem::*mem-usage-bar-empty* #\Space
-      mem::*mem-modeline-fmt* "^07[^70 RAM%p^07]^70"
-      *screen-mode-line-format* "^71[^70 %B ^71]^70 %M ^71[^07 %d ^71]^70 %w"
+      *screen-mode-line-format* "^71[^07 %d ^71]^70 %w"
       ;;         0       1     2             3       4             5           6         7       8
       *colors* '("black" "red" "YellowGreen" "Khaki" "DeepSkyBlue" "IndianRed" "SkyBlue" "white" "gray")
 
@@ -76,14 +56,6 @@
      (loop :while t
            :do (stumpwm::update-all-mode-lines)
            :do (sleep 5)))))
-
-(defcommand timestamp-screenshot () ()
-  (let ((file-name (format nil (home "/Documents/screenshots/~X.png") (get-universal-time))))
-    (screenshot:screenshot-window  file-name)
-    (uiop:launch-program (list "gimp" file-name))))
-
-(defcommand battery-info-message () ()
-  (message (battery-portable::battery-info-string)))
 
 (defvar *master-password* nil
   "The master password for the KeePassXC file.")
@@ -125,35 +97,11 @@
         (uiop:launch-program (list "keepassxc-cli" "clip" password-file entry)
                              :input st)))))
 
-(binwarp:define-binwarp-mode binwarp-mode
-    "m" (:map *root-map* :redefine-bindings t)
-  ((kbd "n") "binwarp down")
-  ((kbd "p") "binwarp up")
-  ((kbd "f") "binwarp right")
-  ((kbd "b") "binwarp left")
-
-  ((kbd "C-n") "binwarp down")
-  ((kbd "C-p") "binwarp up")
-  ((kbd "C-f") "binwarp right")
-  ((kbd "C-b") "binwarp left")
-
-  ((kbd "0") "init-binwarp")
-  ((kbd "TAB") "back-binwarp")
-
-  ((kbd "C-M-n") "ratrelwarp  0 +5")
-  ((kbd "C-M-p") "ratrelwarp  0 -5")
-  ((kbd "C-M-f") "ratrelwarp +5  0")
-  ((kbd "C-M-b") "ratrelwarp -5  0")
-
-  ((kbd "RET") "ratclick 1")
-  ((kbd "SPC") "ratclick 3"))
-
 (set-prefix-key (kbd "s-t"))
 
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-a")   "time")
-               (,(kbd "s-B")   "battery-info-message")
                (,(kbd "s-b")   "banish")
                (,(kbd "s-:")   "eval")
                (,(kbd "s-;")   "colon")
@@ -161,8 +109,6 @@
                (,(kbd "s-h")   ,*help-map*)
                (,(kbd "s-g")   ,*groups-map*)
                (,(kbd "s-q")   "send-raw-key")
-               (,(kbd "s-m")   "binwarp-mode")
-               (,(kbd "s-s")   "timestamp-screenshot")
                (,(kbd "s-p")   "copy-password")
                (,(kbd "s-F3")  "exec pamixer --allow-boost -i 5")
                (,(kbd "s-F2")  "exec pamixer -d 5")
@@ -199,57 +145,6 @@
                (,(kbd "s-RET")   "ratclick 1")))
   (apply (alexandria:curry #'define-key *top-map*) binding))
 
-;; This section is dependent on Vimium-FF
-(define-remapped-keys
-    `((,(lambda (win)
-          (and (member (window-class win)
-                       '("Firefox" "IceCat" "Nightly")
-                       :test #'string-equal)
-               (not binwarp:*binwarp-mode-p*)))
-        ;; The native ones
-        ("C-n" . "Down")
-        ("C-p" . "Up")
-        ("C-b" . "Left")
-        ("C-f" . "Right")
-        ("M-<" . "Home")
-        ("M->" . "End")
-        ("C-a" . "Home")
-        ("C-e" . "End")
-        ("C-d" . "Delete")
-        ;; Less-obvious native ones
-        ("M-." . "M-Right")  ; Forward in history
-        ("M-," . "M-Left")   ; Back in history
-        ("C-s" . "C-f")      ; Forward search
-        ("C-g" . "ESC")      ; Cancel whatever
-        ("C-d" . "C-k")      ; Focus search bar
-        ("C-o" . "C-t")      ; New tab
-        ("C-k" . "C-w")      ; Close current tab
-        ("C-1" . "F11")      ; Fullscreen
-        ;; The ones that I owe to Vimium
-        ("C-?" . "?")        ; Vimium help screen
-        ("M-l" . "F")        ; Open the link in the new tab
-        ("C-l" . "f")        ; Open the link in this tab
-        ;; Text-editing ones
-        ("C-y" . "C-v")      ; Paste/yank
-        ("C-w" . "C-x")      ; Cut/kill
-        ("M-w" . "C-c")      ; Copy
-        ("M-f" . "C-Right")  ; Jump one word forward
-        ("M-b" . "C-Left")   ; Jump one word backward
-        ("C-a" . "C-Up")     ; Jump to the beginning of the line
-        ("C-e" . "C-Down")   ; Jump to the end of the line
-        ("C-M-a" . "C-Home") ; Jump to the beginning of the text
-        ("C-M-e" . "C-End")  ; Jump to the end of the text
-        ("C-SPC" . "F7")     ; Caret mode. Can be handy for text selection.
-        ;; Unbind the quirky original keybindings
-        ("C-t" . "ESC")
-        ("C-q" . "ESC"))))
-
-;; Recommended by Guix Cookbook. Will revisit and test later.
-;; (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
-;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
-;; (xft:cache-fonts)
-;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
-
 (defvar *screen-refresh-thread* nil
   "The thread to constantly move mouse a little to cause the screen stay on.")
 
@@ -257,14 +152,82 @@
     (:on-enter (lambda ()
                  (setf *screen-refresh-thread*
                        (bt:make-thread (lambda ()
-                                         (loop do (binwarp:randwarp :up 1 1)
-                                               do (sleep 550))))))
+                                         (loop (ratrelwarp (1- (random 3)) (1- (random 3)))
+                                               (sleep 550))))))
      :on-exit (lambda ()
                 (bt:destroy-thread *screen-refresh-thread*)
                 (setf *screen-refresh-thread* nil))))
+
+;; Recommended by Guix Cookbook. Will revisit and test later.
+;; (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
+;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
+;; (xft:cache-fonts)
+;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
 
 (setf (uiop:getenv "MOZ_USE_XINPUT2") "1")
 
 (bt:make-thread
  (lambda ()
    (uiop:launch-program "offlineimap")))
+
+(init-load-path (home "/git/stumpwm-contrib/"))
+
+(defmacro load-after-system (system file)
+  "A simplistic copy of Nyxt's macro of the same name."
+  ;; On Guix, all the SBCL FASLs are put into read-only directories,
+  ;; causing compilation errors. Using `asdf:load-source-op' helps that,
+  ;; as loading from source does not cause re-compilation.
+  `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
+     (load ,file)))
+
+(load-after-system :slynk #p"~/.config/stumpwm/slynk.lisp")
+(load-after-system :mem #p"~/.config/stumpwm/mem.lisp")
+(load-after-system :battery-portable #p"~/.config/stumpwm/battery.lisp")
+(load-after-system :screenshot #p"~/.config/stumpwm/screenshot.lisp")
+(load-after-system :binwarp #p"~/.config/stumpwm/binwarp.lisp")
+
+;; This section is dependent on Vimium-FF and Binwarp.
+(define-remapped-keys
+  `((,(lambda (win)
+        (and (member (window-class win)
+                     '("Firefox" "IceCat" "Nightly")
+                     :test #'string-equal)
+             (not (ignore-errors (symbol-value (read-from-string "binwarp:*binwarp-mode-p*"))))))
+     ;; The native ones
+     ("C-n" . "Down")
+     ("C-p" . "Up")
+     ("C-b" . "Left")
+     ("C-f" . "Right")
+     ("M-<" . "Home")
+     ("M->" . "End")
+     ("C-a" . "Home")
+     ("C-e" . "End")
+     ("C-d" . "Delete")
+     ;; Less-obvious native ones
+     ("M-." . "M-Right")  ; Forward in history
+     ("M-," . "M-Left")   ; Back in history
+     ("C-s" . "C-f")      ; Forward search
+     ("C-g" . "ESC")      ; Cancel whatever
+     ("C-d" . "C-k")      ; Focus search bar
+     ("C-o" . "C-t")      ; New tab
+     ("C-k" . "C-w")      ; Close current tab
+     ("C-1" . "F11")      ; Fullscreen
+     ;; The ones that I owe to Vimium
+     ("C-?" . "?")        ; Vimium help screen
+     ("M-l" . "F")        ; Open the link in the new tab
+     ("C-l" . "f")        ; Open the link in this tab
+     ;; Text-editing ones
+     ("C-y" . "C-v")      ; Paste/yank
+     ("C-w" . "C-x")      ; Cut/kill
+     ("M-w" . "C-c")      ; Copy
+     ("M-f" . "C-Right")  ; Jump one word forward
+     ("M-b" . "C-Left")   ; Jump one word backward
+     ("C-a" . "C-Up")     ; Jump to the beginning of the line
+     ("C-e" . "C-Down")   ; Jump to the end of the line
+     ("C-M-a" . "C-Home") ; Jump to the beginning of the text
+     ("C-M-e" . "C-End")  ; Jump to the end of the text
+     ("C-SPC" . "F7")     ; Caret mode. Can be handy for text selection.
+     ;; Unbind the quirky original keybindings
+     ("C-t" . "ESC")
+     ("C-q" . "ESC"))))
+
