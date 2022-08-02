@@ -180,10 +180,6 @@
   `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
      (load ,file)))
 
-(load-after-system :slynk #p"~/.config/stumpwm/slynk.lisp")
-(load-after-system :mem #p"~/.config/stumpwm/mem.lisp")
-(load-after-system :battery-portable #p"~/.config/stumpwm/battery.lisp")
-(load-after-system :screenshot #p"~/.config/stumpwm/screenshot.lisp")
 (load-after-system :binwarp #p"~/.config/stumpwm/binwarp.lisp")
 
 ;; This section is dependent on Vimium-FF and Binwarp.
@@ -230,4 +226,9 @@
      ;; Unbind the quirky original keybindings
      ("C-t" . "ESC")
      ("C-q" . "ESC"))))
+
+(load-after-system :mem #p"~/.config/stumpwm/mem.lisp")
+(load-after-system :battery-portable #p"~/.config/stumpwm/battery.lisp")
+(load-after-system :slynk #p"~/.config/stumpwm/slynk.lisp")
+(load-after-system :screenshot #p"~/.config/stumpwm/screenshot.lisp")
 
