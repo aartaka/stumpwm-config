@@ -1,8 +1,10 @@
 (in-package :stumpwm-user)
 
-(defvar *slynk-port* 4012 "The port to start Slynk at. Change in case of collisions.")
-
 ;; Command to start Slynk server.
-(defcommand start-slynk () ()
-  (slynk:create-server :port *slynk-port*
-                       :dont-close t))
+(defcommand start-slynk (port) ((:number "The port to open the slynk at"))
+  (handler-case
+      (slynk:create-server :port port :dont-close t)
+    (error ()
+      (message "Something's wrong, aborting"))))
+
+(start-slynk 4012)
