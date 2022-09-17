@@ -99,6 +99,11 @@
 
 (set-prefix-key (kbd "s-t"))
 
+(defvar emacsclient
+  (concat "exec emacsclient -cn -a '' "
+          "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
+          "(tool-bar-lines) (menu-bar-lines))'"))
+
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-a")   "time")
@@ -113,9 +118,7 @@
                (,(kbd "s-F3")  "exec pamixer --allow-boost -i 5")
                (,(kbd "s-F2")  "exec pamixer -d 5")
                (,(kbd "s-F1")  "exec bash ~/.config/stumpwm/mute.sh")
-               (,(kbd "s-e")   ,(concat "exec emacsclient -cn -a '' "
-                                        "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
-                                        "(tool-bar-lines) (menu-bar-lines))'"))
+               (,(kbd "s-e")   ,emacsclient)
                (,(kbd "s-C-e") "exec emacs")
                (,(kbd "s-C-t") "exec st")
                (,(kbd "s-C-n") "exec nyxt -v")
