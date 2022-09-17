@@ -8,10 +8,17 @@
     (load quicklisp-init)))
 
 (defun home (path)
-  (namestring (uiop:merge-pathnames* (if (eql #\/ (elt path 0))
-                                         (subseq path 1)
-                                         path)
-                                     (user-homedir-pathname))))
+  (namestring (uiop:merge-pathnames*
+               (if (eql #\/ (elt path 0))
+                   (subseq path 1)
+                   path)
+               (user-homedir-pathname))))
+(defun config (path)
+  (namestring (uiop:merge-pathnames*
+               (if (eql #\/ (elt path 0))
+                   (subseq path 1)
+                   path)
+               (home ".config/stumpwm/"))))
 
 ;; Important asdf-loads
 (ql:quickload
@@ -183,7 +190,7 @@
   `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
      (load ,file)))
 
-(load-after-system :binwarp #p"~/.config/stumpwm/binwarp.lisp")
+(load-after-system :binwarp (config "binwarp.lisp"))
 
 ;; This section is dependent on Vimium-FF and Binwarp.
 (define-remapped-keys
@@ -230,8 +237,7 @@
      ("C-t" . "ESC")
      ("C-q" . "ESC"))))
 
-(load-after-system :mem #p"~/.config/stumpwm/mem.lisp")
-(load-after-system :battery-portable #p"~/.config/stumpwm/battery.lisp")
-(load-after-system :slynk #p"~/.config/stumpwm/slynk.lisp")
-(load-after-system :screenshot #p"~/.config/stumpwm/screenshot.lisp")
-
+(load-after-system :mem (config "mem.lisp"))
+(load-after-system :battery-portable (config "battery.lisp"))
+(load-after-system :slynk (config "slynk.lisp"))
+(load-after-system :screenshot (config "screenshot.lisp"))
