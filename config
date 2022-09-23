@@ -106,6 +106,10 @@
 
 (set-prefix-key (kbd "s-t"))
 
+(defcommand sudo (command password) ((:string "sudo bash -c ") (:password "Sudo password: "))
+  (with-input-from-string (s password)
+    (uiop:launch-program `("sudo" "-S" "--" "bash" "-c" ,command) :input s)))
+
 (defvar emacsclient
   (concat "exec emacsclient -cn -a '' "
           "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
