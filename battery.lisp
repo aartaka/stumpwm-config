@@ -18,10 +18,12 @@
                                        :junk-allowed t)
                         10))
              do (set-border-color "red")
+             and do (set-fg-color "red")
              and do (set-msg-border-width 10)
              and do (message "Battery low!")
            else
              do (set-border-color "white")
+             and do (set-fg-color "white")
              and do (set-msg-border-width 1)
            do (stumpwm::sync-all-frame-windows (current-group))))))
 
