@@ -5,7 +5,7 @@
                '("(not implemented)" "(no battery info)") :test #'equalp)))
 
 (defcommand battery-info-message () ()
-  (message (battery-portable::battery-info-string)))
+  (message (ppcre:regex-replace-all "~" (battery-portable::battery-info-string) "~~")))
 
 (defvar *battery-warning-thread*
   (bt:make-thread
