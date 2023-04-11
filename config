@@ -117,6 +117,13 @@
           "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
           "(tool-bar-lines) (menu-bar-lines))'"))
 
+(defcommand doom () ()
+  (uiop:launch-program (list "chocolate-doom" "-iwad" "~/Documents/doom/GAME/DOOMU.WAD")))
+(defcommand doom2 () ()
+  (uiop:launch-program (list "chocolate-doom" "-iwad" "~/Documents/doom2/DOOM2.WAD")))
+(defcommand doom-plutonia () ()
+  (uiop:launch-program (list "chocolate-doom" "-iwad" "~/Documents/doom-plutonia/PLUTONIA.WAD")))
+
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-a")   "time")
