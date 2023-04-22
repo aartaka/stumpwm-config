@@ -118,11 +118,11 @@
           "(tool-bar-lines) (menu-bar-lines))'"))
 
 (defcommand doom () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" "~/Documents/doom/GAME/DOOMU.WAD")))
+  (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom/GAME/DOOMU.WAD")))
 (defcommand doom2 () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" "~/Documents/doom2/DOOM2.WAD")))
+  (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom2/DOOM2.WAD")))
 (defcommand doom-plutonia () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" "~/Documents/doom-plutonia/PLUTONIA.WAD")))
+  (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom-plutonia/PLUTONIA.WAD")))
 
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
