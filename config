@@ -209,9 +209,9 @@
 ;; This section is dependent on Vimium-FF and Binwarp.
 (define-remapped-keys
   `((,(lambda (win)
-        (and (member (window-class win)
-                     '("Firefox" "IceCat" "Nightly" "icecat-default" "firefox-default")
-                     :test #'string-equal)
+        (and (some (lambda (class)
+                     (search class (window-class win) :test #'equalp))
+                   '("firefox" "icecat" "nightly" "chromium"))
              (not (ignore-errors (symbol-value (read-from-string "binwarp:*binwarp-mode-p*"))))))
      ;; The native ones
      ("C-n" . "Down")
