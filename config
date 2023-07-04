@@ -123,6 +123,8 @@
   (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom2/DOOM2.WAD")))
 (defcommand doom-plutonia () ()
   (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom-plutonia/PLUTONIA.WAD")))
+(defcommand quake () ()
+  (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
