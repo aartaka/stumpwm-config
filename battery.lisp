@@ -28,3 +28,5 @@
            do (stumpwm::sync-all-frame-windows (current-group))))))
 
 (define-key *top-map* (kbd "s-B") "battery-info-message")
+;; Even less involved / more compulsive binding.
+(define-key *top-map* (kbd "s-b") "battery-info-message")
