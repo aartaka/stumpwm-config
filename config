@@ -126,6 +126,21 @@
 (defcommand quake () ()
   (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
+(defun run-pamixer-get-string (command)
+  "Helper to abstract away pamixer commands and get percentage from them."
+  (string-trim serapeum:whitespace (run-shell-command command t)))
+
+(defcommand increase-volume () ()
+  (message "Volume at ~a%" (run-pamixer-get-string "pamixer --allow-boost -i 5 --get-volume")))
+
+(defcommand decrease-volume () ()
+  (message "Volume at ~d%" (run-pamixer-get-string "pamixer -d 5 --get-volume")))
+
+(defcommand toggle-mute () ()
+  (if (equal "true" (run-pamixer-get-string "pamixer -t --get-mute"))
+      (message "Muted!")
+      (message "Unmuted!")))
+
 (dolist
     (binding `((,(kbd "s-r")   "iresize")
                (,(kbd "s-a")   "time")
@@ -138,9 +153,9 @@
                (,(kbd "s-q")   "send-raw-key")
                (,(kbd "s-p")   "copy-password")
                (,(kbd "s-u")   "copy-username")
-               (,(kbd "s-F3")  "exec pamixer --allow-boost -i 5")
-               (,(kbd "s-F2")  "exec pamixer -d 5")
-               (,(kbd "s-F1")  "exec bash ~/.config/stumpwm/mute.sh")
+               (,(kbd "s-F3")  "increase-volume")
+               (,(kbd "s-F2")  "decrease-volume")
+               (,(kbd "s-F1")  "toggle-mute")
                (,(kbd "s-e")   ,emacsclient)
                (,(kbd "s-C-e") "exec emacs")
                (,(kbd "s-C-t") "exec st")
