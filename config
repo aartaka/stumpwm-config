@@ -8,6 +8,9 @@
     (load quicklisp-init)))
 
 (defun home (path)
+  "Resolve the PATH against $HOME.
+Not really useful, but saves some typing and makes all the HOME
+resolution consistent."
   (namestring (uiop:merge-pathnames*
                (if (eql #\/ (elt path 0))
                    (subseq path 1)
@@ -118,11 +121,11 @@
           "(tool-bar-lines) (menu-bar-lines))'"))
 
 (defcommand doom () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom/GAME/DOOMU.WAD")))
+  (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom/GAME/DOOMU.WAD"))))
 (defcommand doom2 () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom2/DOOM2.WAD")))
+  (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom2/DOOM2.WAD"))))
 (defcommand doom-plutonia () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" "/home/aartaka/Documents/doom-plutonia/PLUTONIA.WAD")))
+  (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom-plutonia/PLUTONIA.WAD"))))
 (defcommand quake () ()
   (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
