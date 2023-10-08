@@ -16,7 +16,10 @@ resolution consistent."
                    (subseq path 1)
                    path)
                (user-homedir-pathname))))
+
 (defun config (path)
+  "Resolve the PATH against StumpWM config dir.
+Useful for dependency-based config files."
   (namestring (uiop:merge-pathnames*
                (if (eql #\/ (elt path 0))
                    (subseq path 1)
