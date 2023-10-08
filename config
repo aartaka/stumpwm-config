@@ -59,6 +59,7 @@ Useful for dependency-based config files."
   "The master password for the KeePassXC file.")
 
 (defun get-master-password (password-file)
+  "Read master password for PASSWORD-FILE from StumpWM."
   (loop for password
           = *master-password*
             then (read-one-line (current-screen) (concat password-file " password: ") :password t)
@@ -73,6 +74,7 @@ Useful for dependency-based config files."
         finally (return (setf *master-password* password))))
 
 (defun get-entry (password-file)
+  "Choose the entry from PASSWORD-FILE to work (get username/password) on."
   (let* ((password (get-master-password password-file))
          (entries
            (unless (or (equal password '("NIL"))
@@ -91,6 +93,7 @@ Useful for dependency-based config files."
                                   :completions entries :require-match t)))))
 
 (defcommand copy-password () ()
+  "Copy the password for the given entity in password file."
   (let* ((password-file (home "/Documents/p.kdbx"))
          (password (get-master-password password-file))
          (entry (get-entry password-file)))
@@ -101,6 +104,7 @@ Useful for dependency-based config files."
                              :input st)))))
 
 (defcommand copy-username () ()
+  "Copy the username for the given entity in password file."
   (let* ((password-file (home "/Documents/p.kdbx"))
          (password (get-master-password password-file))
          (entry (get-entry password-file)))
@@ -115,6 +119,7 @@ Useful for dependency-based config files."
 (set-prefix-key (kbd "s-t"))
 
 (defcommand sudo (command password) ((:string "sudo bash -c ") (:password "Sudo password: "))
+  "Run the COMMAND as sudo, prompting for PASSWORD."
   (with-input-from-string (s password)
     (uiop:launch-program `("sudo" "-S" "--" "bash" "-c" ,command) :input s)))
 
@@ -137,12 +142,15 @@ Useful for dependency-based config files."
   (string-trim serapeum:whitespace (run-shell-command command t)))
 
 (defcommand increase-volume () ()
+  "Increase device volume and show the percentage."
   (message "Volume at ~a%" (run-pamixer-get-string "pamixer --allow-boost -i 5 --get-volume")))
 
 (defcommand decrease-volume () ()
+  "Decrease device volume and show the percentage."
   (message "Volume at ~d%" (run-pamixer-get-string "pamixer -d 5 --get-volume")))
 
 (defcommand toggle-mute () ()
+  "Mute or unmute the device."
   (if (equal "true" (run-pamixer-get-string "pamixer -t --get-mute"))
       (message "Muted!")
       (message "Unmuted!")))

@@ -5,7 +5,9 @@
                '("(not implemented)" "(no battery info)") :test #'equalp)))
 
 (defcommand battery-info-message () ()
-  (message (ppcre:regex-replace-all "~" (battery-portable::battery-info-string) "~~")))
+  "Show the battery percentage message."
+  (uiop:frob-substrings)
+  (message (uiop:frob-substrings (battery-portable::battery-info-string) "~" "~~")))
 
 (defvar *battery-warning-thread*
   (bt:make-thread
@@ -25,7 +27,8 @@
              do (set-border-color "white")
              and do (set-fg-color "white")
              and do (set-msg-border-width 1)
-           do (stumpwm::sync-all-frame-windows (current-group))))))
+           do (stumpwm::sync-all-frame-windows (current-group)))))
+  "Thread to check battery usage and report when it's low.")
 
 (define-key *top-map* (kbd "s-B") "battery-info-message")
 ;; Even less involved / more compulsive binding.
