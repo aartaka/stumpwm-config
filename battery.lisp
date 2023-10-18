@@ -6,7 +6,6 @@
 
 (defcommand battery-info-message () ()
   "Show the battery percentage message."
-  (uiop:frob-substrings)
   (message (uiop:frob-substrings (battery-portable::battery-info-string) "~" "~~")))
 
 (defvar *battery-warning-thread*
