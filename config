@@ -227,13 +227,14 @@ Useful for dependency-based config files."
 
 (init-load-path (home "/git/stumpwm-contrib/"))
 
-(defmacro load-after-system (system file)
+(defmacro load-after-system (system &optional file)
   "A simplistic copy of Nyxt's macro of the same name."
   ;; On Guix, all the SBCL FASLs are put into read-only directories,
   ;; causing compilation errors. Using `asdf:load-source-op' helps that,
   ;; as loading from source does not cause re-compilation.
   `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
-     (load ,file)))
+     ,(when file
+        `(load ,file))))
 
 (load-after-system :binwarp (config "binwarp.lisp"))
 
@@ -285,3 +286,6 @@ Useful for dependency-based config files."
 (load-after-system :battery-portable (config "battery.lisp"))
 (load-after-system :slynk (config "slynk.lisp"))
 (load-after-system :screenshot (config "screenshot.lisp"))
+
+(load-after-system :swm-golden-ratio)
+(swm-golden-ratio:toggle-golden-ratio)
