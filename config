@@ -258,7 +258,6 @@ Useful for dependency-based config files."
      ("M-." . "M-Right")  ; Forward in history
      ("M-," . "M-Left")   ; Back in history
      ("C-s" . "C-f")      ; Forward search
-     ("C-g" . "ESC")      ; Cancel whatever
      ("C-d" . "C-k")      ; Focus search bar
      ("C-o" . "C-t")      ; New tab
      ("C-k" . "C-w")      ; Close current tab
