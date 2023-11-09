@@ -250,6 +250,8 @@ Useful for dependency-based config files."
      ("C-p" . "Up")
      ("C-b" . "Left")
      ("C-f" . "Right")
+     ("C-v" . "SunPageDown")
+     ("M-v" . "SunPageUp")
      ("M-<" . "Home")
      ("M->" . "End")
      ("C-a" . "Home")
