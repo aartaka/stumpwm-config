@@ -243,7 +243,7 @@ Useful for dependency-based config files."
   `((,(lambda (win)
         (and (some (lambda (class)
                      (search class (window-class win) :test #'equalp))
-                   '("firefox" "icecat" "nightly" "chromium"))
+                   '("firefox" "icecat" "nightly" "chromium" "surf"))
              (not (ignore-errors (symbol-value (read-from-string "binwarp:*binwarp-mode-p*"))))))
      ;; The native ones
      ("C-n" . "Down")
@@ -257,18 +257,6 @@ Useful for dependency-based config files."
      ("C-a" . "Home")
      ("C-e" . "End")
      ("C-d" . "Delete")
-     ;; Less-obvious native ones
-     ("M-." . "M-Right")  ; Forward in history
-     ("M-," . "M-Left")   ; Back in history
-     ("C-s" . "C-f")      ; Forward search
-     ("C-d" . "C-k")      ; Focus search bar
-     ("C-o" . "C-t")      ; New tab
-     ("C-k" . "C-w")      ; Close current tab
-     ("C-1" . "F11")      ; Fullscreen
-     ;; The ones that I owe to Vimium
-     ("C-?" . "?")        ; Vimium help screen
-     ("M-l" . "F")        ; Open the link in the new tab
-     ("C-l" . "f")        ; Open the link in this tab
      ;; Text-editing ones
      ("C-y" . "C-v")      ; Paste/yank
      ("C-w" . "C-x")      ; Cut/kill
@@ -279,6 +267,14 @@ Useful for dependency-based config files."
      ("C-e" . "C-Down")   ; Jump to the end of the line
      ("C-M-a" . "C-Home") ; Jump to the beginning of the text
      ("C-M-e" . "C-End")  ; Jump to the end of the text
+     ;; Less-obvious native ones
+     ("M-." . "M-Right")  ; Forward in history
+     ("M-," . "M-Left")   ; Back in history
+     ("C-s" . "C-f")      ; Forward search
+     ("C-d" . "C-k")      ; Focus search bar
+     ("C-o" . "C-t")      ; New tab
+     ("C-k" . "C-w")      ; Close current tab
+     ("C-1" . "F11")      ; Fullscreen
      ("C-SPC" . "F7")     ; Caret mode. Can be handy for text selection.
      ;; Unbind the quirky original keybindings
      ("C-t" . "ESC")
