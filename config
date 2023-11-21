@@ -288,6 +288,3 @@ Useful for dependency-based config files."
 
 (load-after-system :swm-golden-ratio)
 (swm-golden-ratio:toggle-golden-ratio)
-
-;; TODO: Configure it.
-(load-after-system :stump-backlight)
