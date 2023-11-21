@@ -173,6 +173,7 @@ Useful for dependency-based config files."
                (,(kbd "s-e")   ,emacsclient)
                (,(kbd "s-C-e") "exec emacs")
                (,(kbd "s-C-t") "exec st")
+               (,(kbd "s-C-s") "exec http_proxy=\"socks5://localhost:9050\" surf")
                (,(kbd "s-C-n") "exec nyxt -v")
                (,(kbd "s-C-u") "exec urxvt")
                (,(kbd "s-C-k") "exec keepassxc")
