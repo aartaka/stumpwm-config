@@ -52,7 +52,7 @@ Useful for dependency-based config files."
       *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
 
 (setf (xlib:window-background (xlib:screen-root (screen-number (current-screen))))
-      #x090000)
+      #x8b3a3a)
 (update-color-map (current-screen))
 
 (defvar *master-password* nil
