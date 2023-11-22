@@ -48,12 +48,21 @@ Useful for dependency-based config files."
 
       *show-command-backtrace* t
 
+      *mode-line-background-color* "#090000"
+      *mode-line-foreground-color* "#fff8f8"
+      *mode-line-border-width* 0
+      *mode-line-pad-y* 5
+      *mode-line-pad-x* 10
+      *window-format* "%m%s %40t /"
+      *screen-mode-line-format* "%d ^10/^70 %M ^10/^70 %B ^10//^70 %w"
+
       *time-month-names* #("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
       *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
 
 (setf (xlib:window-background (xlib:screen-root (screen-number (current-screen))))
       #x8b3a3a)
 (update-color-map (current-screen))
+(enable-mode-line (current-screen) (current-head) t)
 
 (defvar *master-password* nil
   "The master password for the KeePassXC file.")
