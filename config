@@ -57,7 +57,8 @@ Useful for dependency-based config files."
       *screen-mode-line-format* "%d ^10/^70 %M ^10/^70 %B ^10//^70 %w"
 
       *time-month-names* #("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
-      *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
+      *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
+      stumpwm::*input-refine-candidates-fn* #'stumpwm::input-refine-regexp)
 
 (setf (xlib:window-background (xlib:screen-root (screen-number (current-screen))))
       #x8b3a3a)
