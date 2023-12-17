@@ -257,10 +257,10 @@ Useful for dependency-based config files."
                    '("firefox" "icecat" "nightly" "chromium" "surf"))
              (not (ignore-errors (symbol-value (read-from-string "binwarp:*binwarp-mode-p*"))))))
      ;; The native ones
-     ("C-n" . "Down")
-     ("C-p" . "Up")
-     ("C-b" . "Left")
-     ("C-f" . "Right")
+     ("C-n" . "Down") ("C-N" . "S-Down")
+     ("C-p" . "Up") ("C-P" . "S-Up")
+     ("C-b" . "Left") ("C-B" . "S-Left")
+     ("C-f" . "Right") ("C-F" . "S-Right")
      ("C-v" . "SunPageDown")
      ("M-v" . "SunPageUp")
      ("M-<" . "Home")
@@ -268,16 +268,17 @@ Useful for dependency-based config files."
      ("C-a" . "Home")
      ("C-e" . "End")
      ("C-d" . "Delete")
-     ;; Text-editing ones
+     ;; Advanced text movement
+     ("M-f" . "C-Right") ("M-F" . "C-S-Right")  ; Jump one word forward
+     ("M-b" . "C-Left") ("M-B" . "C-S-Left")   ; Jump one word backward
+     ("C-a" . "C-Up") ("C-A" . "C-S-Up")     ; Jump to the beginning of the line
+     ("C-e" . "C-Down") ("C-E" . "C-S-Down")   ; Jump to the end of the line
+     ("C-M-a" . "C-Home") ("C-M-A" . "C-S-Home") ; Jump to the beginning of the text
+     ("C-M-e" . "C-End") ("C-M-E" . "C-S-End")  ; Jump to the end of the text
+     ;; Text editing
      ("C-y" . "C-v")      ; Paste/yank
      ("C-w" . "C-x")      ; Cut/kill
      ("M-w" . "C-c")      ; Copy
-     ("M-f" . "C-Right")  ; Jump one word forward
-     ("M-b" . "C-Left")   ; Jump one word backward
-     ("C-a" . "C-Up")     ; Jump to the beginning of the line
-     ("C-e" . "C-Down")   ; Jump to the end of the line
-     ("C-M-a" . "C-Home") ; Jump to the beginning of the text
-     ("C-M-e" . "C-End")  ; Jump to the end of the text
      ;; Less-obvious native ones
      ("M-." . "M-Right")  ; Forward in history
      ("M-," . "M-Left")   ; Back in history
