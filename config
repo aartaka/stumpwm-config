@@ -65,6 +65,7 @@ Useful for dependency-based config files."
 (update-color-map (current-screen))
 (enable-mode-line (current-screen) (current-head) t)
 
+(load (config "apps.lisp"))
 (load (config "password.lisp"))
 
 (set-prefix-key (kbd "s-t"))
@@ -78,15 +79,6 @@ Useful for dependency-based config files."
   (concat "exec emacsclient -cn -a '' "
           "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
           "(tool-bar-lines) (menu-bar-lines))'"))
-
-(defcommand doom () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom/GAME/DOOMU.WAD"))))
-(defcommand doom2 () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom2/DOOM2.WAD"))))
-(defcommand doom-plutonia () ()
-  (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom-plutonia/PLUTONIA.WAD"))))
-(defcommand quake () ()
-  (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
 (defun run-pamixer-get-string (command)
   "Helper to abstract away pamixer commands and get percentage from them."
