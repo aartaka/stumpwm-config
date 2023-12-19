@@ -212,6 +212,8 @@ Useful for dependency-based config files."
      ;; Advanced text movement
      ("M-f" . "C-Right") ("M-F" . "C-S-Right")  ; Jump one word forward
      ("M-b" . "C-Left") ("M-B" . "C-S-Left")   ; Jump one word backward
+     ("C-M-f" . "C-Right") ("C-M-F" . "C-S-Right")  ; Jump one word forward alias
+     ("C-M-b" . "C-Left") ("C-M-B" . "C-S-Left")   ; Jump one word backward
      ("C-a" . "C-Up") ("C-A" . "C-S-Up")     ; Jump to the beginning of the line
      ("C-e" . "C-Down") ("C-E" . "C-S-Down")   ; Jump to the end of the line
      ("C-M-a" . "C-Home") ("C-M-A" . "C-S-Home") ; Jump to the beginning of the text
