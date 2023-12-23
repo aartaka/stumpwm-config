@@ -16,4 +16,4 @@
 (defcommand proton () ()
   (uiop:launch-program (list "surf" "-S" "https://proton.me")))
 (defcommand youtube () ()
-  (uiop:launch-program (list "surf" "-S" "https://invidious.slipfox.xyz/search")))
+  (uiop:launch-program (list "surf" "-S" "https://api.invidious.io/")))
