@@ -10,7 +10,7 @@
   (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
 (defcommand ardshin () ()
-  (uiop:launch-program (list "surf" "-S" "-I" "https://ibanking.ardshinbank.am:4443/nibanking/login")))
+  (uiop:launch-program (list "surf" "https://ibanking.ardshinbank.am:4443/nibanking/login")))
 (defcommand disroot () ()
   (uiop:launch-program (list "surf" "https://webmail.disroot.org")))
 (defcommand proton () ()
