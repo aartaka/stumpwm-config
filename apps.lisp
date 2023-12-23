@@ -15,3 +15,5 @@
   (uiop:launch-program (list "surf" "https://webmail.disroot.org")))
 (defcommand proton () ()
   (uiop:launch-program (list "surf" "-S" "https://proton.me")))
+(defcommand youtube () ()
+  (uiop:launch-program (list "surf" "-S" "https://invidious.slipfox.xyz/search")))
