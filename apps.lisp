@@ -9,7 +9,7 @@
 (defcommand quake () ()
   (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
-(defcommand surf (&optional args/url) ((:string "URL"))
+(defcommand surf (&optional args/url) ((:string "URL "))
   (uiop:launch-program (cons "surf" (uiop:ensure-list args/url))))
 (defcommand surf-proxy () ()
   (uiop:launch-program "http_proxy=\"socks5://localhost:9050\" surf"))
