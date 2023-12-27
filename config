@@ -116,7 +116,7 @@ Useful for dependency-based config files."
              ("s-e"   ,emacsclient)
              ("s-C-e" "exec emacs")
              ("s-C-t" "exec st")
-             ("s-C-s" "exec http_proxy=\"socks5://localhost:9050\" surf")
+             ("s-C-s" "exec surf")
              ("s-C-n" "exec nyxt -v")
              ("s-C-u" "exec urxvt")
              ("s-C-k" "exec keepassxc")
