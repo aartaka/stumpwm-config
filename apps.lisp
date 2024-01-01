@@ -14,6 +14,9 @@
 (defcommand surf-proxy () ()
   (uiop:launch-program "http_proxy=\"socks5://localhost:9050\" surf"))
 
+(defcommand rlwrap (&optional impl) ((:string "Lisp implementation "))
+  (uiop:launch-program (list "st" "rlwrap" "-c" "-b" "(){}[],^%$#@\"\";''|\\" "-q" "\"" impl)))
+
 (defcommand ardshin () ()
   (surf "https://ibanking.ardshinbank.am:4443/nibanking/login"))
 (defcommand disroot () ()
