@@ -29,3 +29,6 @@
   (surf (format nil "http://wordnetweb.princeton.edu/perl/webwn?s=~a" word)))
 (defcommand news () ()
   (surf "https://news.ycombinator.com"))
+
+(defcommand query (query) ((:string "Search query "))
+  (uiop:launch-program (format nil "surf \" ~a\"" query)))
