@@ -20,7 +20,7 @@
 (defcommand ardshin () ()
   (surf "https://ibanking.ardshinbank.am:4443/nibanking/login"))
 (defcommand disroot () ()
-  (surf "https://webmail.disroot.org"))
+  (surf '("-S" "https://webmail.disroot.org")))
 (defcommand proton () ()
   (surf '("-S" "https://proton.me")))
 (defcommand youtube () ()
