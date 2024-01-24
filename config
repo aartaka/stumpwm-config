@@ -28,7 +28,7 @@ Useful for dependency-based config files."
 
 ;; Important asdf-loads
 (ql:quickload
- '(:cl-ppcre :zpng :alexandria :serapeum :bordeaux-threads)) ; dependencies
+ '(:cl-ppcre :zpng :alexandria :serapeum :bordeaux-threads :trivial-clipboard)) ; dependencies
 
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
@@ -123,6 +123,7 @@ Useful for dependency-based config files."
              ("s-C-l" "exec libreoffice")
              ("s-C-g" "exec gimp")
              ("s-l"   "query")
+             ("s-L"   "copy-surf-link")
              ("s-SPC" "pull-hidden-next")
              ("s-M-p" "prev-in-frame")
              ("s-M-n" "next-in-frame")

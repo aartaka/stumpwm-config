@@ -32,3 +32,9 @@
 
 (defcommand query (query) ((:string "Search query "))
   (uiop:launch-program (format nil "surf \" ~a\"" query)))
+(defcommand copy-surf-link () ()
+  (trivial-clipboard:text
+   (second
+    (uiop:split-string
+     (alexandria:lastcar
+      (uiop:read-file-lines #p"~/.local/share/surf/history.txt"))))))
