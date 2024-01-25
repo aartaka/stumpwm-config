@@ -2,7 +2,37 @@
 
 This is the repo with my chaotic customisations of StumpWM. Although it's chaotic and long, there are two parts that I plan to enhance and move to separate contrib files. Until this happens, this README will contain explanation and documentation for these two contributions: `definition` command and `binwarp` mouse-replacing mode.
 
-## binwarp-mode
+## config
+
+The hub for all the configuration. Things of interest:
+- A huge `setf` in the begining, heavily customizing Stump to my linking.
+- Volume control with `increase-volume`, `decrease-volume`, `toggle-mute`.
+- Lots of keybindings for everything really.
+- `screen-lock-less-mode` to prevent the machine from going to sleep.
+- CUA-hiding set of Emacsy bindings with `define-remapped-keys`.
+- Loading of the contrib configuration (files described below):
+
+## apps.lisp
+
+Mostly Surf (Suckless browser) wrappers for my bank/email etc. And some games.
+
+## battery.lisp, mem.lisp
+
+Configs for respective contrib modules.
+
+## password.lisp
+
+A lot of code for convenient password/username copying with KeePassXC. Some of the code is re-purposed from Nyxt's `password-mode` and its underlying `password-manager` library.
+
+## screenshot.lisp
+
+Wrapper around the `screenshot` contrib, opening Gimp on a newly created screenshot. Because I almost always want to crop the screenshot to a restricted area, instead of saving the full one.
+
+## slynk.lisp
+
+Starts the Slynk (Lisp dev server) at `localhost:4012` and provides a comment to start an additional one at an arbitrary port. Copied from Nyxt.
+
+## binwarp-mode (binwarp.lisp)
 
 Binwarp-mode is now a part of [stumpwm-contrib](https://github.com/stumpwm/stumpwm-contrib)! Use it from there :) What follows is a small historical reference:
 
