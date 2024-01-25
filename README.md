@@ -1,6 +1,6 @@
 # My StumpWM config
 
-This is the repo with my chaotic customisations of StumpWM. Although it's chaotic and long, there are two parts that I plan to enhance and move to separate contrib files. Until this happens, this README will contain explanation and documentation for these two contributions: `definition` command and `binwarp` mouse-replacing mode.
+This is the repo with my chaotic customisations of StumpWM. All centered in `config` file, with lots of features split into their own files.
 
 ## config
 
