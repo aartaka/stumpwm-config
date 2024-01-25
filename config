@@ -148,6 +148,7 @@ Useful for dependency-based config files."
 (defvar *screen-refresh-thread* nil
   "The thread to constantly move mouse a little to cause the screen stay on.")
 
+;; To make sure the machine doesn't go into the sleep mode.
 (define-interactive-keymap screen-lock-less-mode
     (:on-enter (lambda ()
                  (setf *screen-refresh-thread*
@@ -164,6 +165,7 @@ Useful for dependency-based config files."
 ;; (xft:cache-fonts)
 ;; (set-font (make-instance 'xft:font :family "Hack" :subfamily "Regular" :size 17))
 
+;; To fix scrolling.
 (setf (uiop:getenv "MOZ_USE_XINPUT2") "1")
 
 (bt:make-thread

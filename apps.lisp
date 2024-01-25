@@ -1,7 +1,7 @@
 (in-package :stumpwm-user)
 
 (defcommand doom () ()
- (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom/GAME/DOOMU.WAD"))))
+  (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom/GAME/DOOMU.WAD"))))
 (defcommand doom2 () ()
   (uiop:launch-program (list "chocolate-doom" "-iwad" (home "/Documents/doom2/DOOM2.WAD"))))
 (defcommand doom-plutonia () ()
@@ -10,11 +10,14 @@
   (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
 (defcommand surf (&optional args/url) ((:string "URL "))
+  "Meta-command used in other commands to open URLs and search data."
   (uiop:launch-program (cons "surf" (uiop:ensure-list args/url))))
 (defcommand surf-proxy () ()
+  "Tor-proxied version of surf."
   (uiop:launch-program "http_proxy=\"socks5://localhost:9050\" surf"))
 
 (defcommand rlwrap (&optional impl) ((:string "Lisp implementation "))
+  "Run a chosen Common Lisp in ST with Readline (rlwrap)."
   (uiop:launch-program (list "st" "rlwrap" "-c" "-b" "(){}[],^%$#@\"\";''|\\" "-q" "\"" impl)))
 
 (defcommand ardshin () ()
@@ -31,8 +34,10 @@
   (surf "https://news.ycombinator.com"))
 
 (defcommand query (query) ((:string "Search query "))
+  "Search the text via Surf."
   (uiop:launch-program (format nil "surf \" ~a\"" query)))
 (defcommand copy-surf-link () ()
+  "A hack until I figure out how to copy links directly from Surf."
   (trivial-clipboard:text
    (second
     (uiop:split-string
