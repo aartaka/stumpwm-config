@@ -5,7 +5,7 @@ This is the repo with my chaotic customisations of StumpWM. All centered in `con
 ## config
 
 The hub for all the configuration. Things of interest:
-- A huge `setf` in the begining, heavily customizing Stump to my linking.
+- A huge `setf` in the begining, heavily customizing Stump to my liking.
 - Volume control with `increase-volume`, `decrease-volume`, `toggle-mute`.
 - Lots of keybindings for everything really.
 - `screen-lock-less-mode` to prevent the machine from going to sleep.
