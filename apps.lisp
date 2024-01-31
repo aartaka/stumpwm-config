@@ -35,7 +35,8 @@
 
 (defcommand query (query) ((:string "Search query "))
   "Search the text via Surf."
-  (uiop:launch-program (format nil "surf \" ~a\"" query)))
+  (unless (member query '("" "NIL" nil) :test #'equalp)
+    (uiop:launch-program (format nil "surf \" ~a\"" query))))
 (defcommand copy-surf-link () ()
   "A hack until I figure out how to copy links directly from Surf."
   (trivial-clipboard:text
