@@ -217,8 +217,8 @@ Useful for dependency-based config files."
      ("C-y" . "C-v")      ; Paste/yank
      ("C-w" . "C-x")      ; Cut/kill
      ("M-w" . "C-c")      ; Copy
-     ("C-/" . "C-z")      ; Copy
-     ("C-?" . "C-Z")      ; Copy
+     ("C-/" . "C-z")      ; Undo
+     ("C-?" . "C-Z")      ; Redo
      ;; Less-obvious native ones
      ("M-." . "M-Right")  ; Forward in history
      ("M-," . "M-Left")   ; Back in history
