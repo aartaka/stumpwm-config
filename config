@@ -168,7 +168,7 @@ Useful for dependency-based config files."
 ;; To fix scrolling.
 (setf (uiop:getenv "MOZ_USE_XINPUT2") "1")
 ;; To increase the scale of GTK apps.
-(setf (uiop:getenv "GDK_SCALE") "2")
+(setf (uiop:getenv "GDK_SCALE") "1.5")
 
 (bt:make-thread
  (lambda ()
