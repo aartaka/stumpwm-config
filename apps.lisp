@@ -28,12 +28,12 @@
   (surf '("-S" "https://proton.me")))
 (defcommand youtube () ()
   (surf '("-S" "https://api.invidious.io/")))
-(defcommand dict (&optional word) ((:string "Word to search "))
+(defcommand dict (&optional word) ((:string "Word to search: "))
   (surf (format nil "http://wordnetweb.princeton.edu/perl/webwn?s=~a" word)))
 (defcommand news () ()
   (surf "https://news.ycombinator.com"))
 
-(defcommand query (query) ((:string "Search query "))
+(defcommand query (query) ((:string "Search query: "))
   "Search the text via Surf."
   (unless (member query '("" "NIL" nil) :test #'equalp)
     (uiop:launch-program (format nil "surf \" ~a\"" query))))
