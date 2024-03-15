@@ -8,3 +8,4 @@
     (uiop:launch-program (list "gimp" file-name))))
 
 (define-key *top-map* (kbd "s-s") "timestamp-screenshot")
+(define-key *top-map* (kbd "SunPrint_Screen") "timestamp-screenshot")
