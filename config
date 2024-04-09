@@ -194,7 +194,7 @@ Useful for dependency-based config files."
   `((,(lambda (win)
         (and (some (lambda (class)
                      (search class (window-class win) :test #'equalp))
-                   '("firefox" "icecat" "nightly" "chromium" "surf"))
+                   '("firefox" "icecat" "nightly" "chromium" "surf" "lagrange"))
              (not (ignore-errors (symbol-value (read-from-string "binwarp:*binwarp-mode-p*"))))))
      ;; The native ones
      ("C-n" . "Down") ("C-N" . "S-Down")
