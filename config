@@ -60,6 +60,8 @@ Useful for dependency-based config files."
       *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
       stumpwm::*input-refine-candidates-fn* #'stumpwm::input-refine-regexp)
 
+(set-focus-color "#cd5c5c")
+
 (setf (xlib:window-background (xlib:screen-root (screen-number (current-screen))))
       #x8b3a3a)
 (update-color-map (current-screen))
