@@ -172,6 +172,13 @@ Useful for dependency-based config files."
 ;; To increase the scale of GTK apps.
 (setf (uiop:getenv "GDK_SCALE") "2")
 
+;; Guix certificates paths
+(setf (uiop:getenv "SSL_CERT_DIR") "/home/aartaka/.guix-profile/etc/ssl/certs")
+(setf (uiop:getenv "GIT_SSL_CAINFO")
+      (setf (uiop:getenv "SSL_CERT_FILE")
+            "/home/aartaka/.guix-profile/etc/ssl/certs/ca-certificates.crt"))
+
+
 (bt:make-thread
  (lambda ()
    (uiop:launch-program "offlineimap")))
