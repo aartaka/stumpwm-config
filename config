@@ -173,10 +173,10 @@ Useful for dependency-based config files."
 (setf (uiop:getenv "GDK_SCALE") "2")
 
 ;; Guix certificates paths
-(setf (uiop:getenv "SSL_CERT_DIR") "/home/aartaka/.guix-profile/etc/ssl/certs")
-(setf (uiop:getenv "GIT_SSL_CAINFO")
-      (setf (uiop:getenv "SSL_CERT_FILE")
-            "/home/aartaka/.guix-profile/etc/ssl/certs/ca-certificates.crt"))
+(setf (uiop:getenv "SSL_CERT_DIR") "/etc/ssl/certs")
+(let ((file "/etc/ssl/certs/ca-certificates.crt"))
+  (setf (uiop:getenv "GIT_SSL_CAINFO") file
+        (uiop:getenv "SSL_CERT_FILE") file))
 
 
 (bt:make-thread
@@ -243,9 +243,9 @@ Useful for dependency-based config files."
      ("C-t" . "ESC")
      ("C-q" . "ESC"))))
 
+(load-after-system :slynk (config "slynk.lisp"))
 (load-after-system :mem (config "mem.lisp"))
 (load-after-system :battery-portable (config "battery.lisp"))
-(load-after-system :slynk (config "slynk.lisp"))
 (load-after-system :screenshot (config "screenshot.lisp"))
 
 (load-after-system :swm-golden-ratio)
