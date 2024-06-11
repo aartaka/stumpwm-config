@@ -171,6 +171,7 @@ Useful for dependency-based config files."
 (setf (uiop:getenv "MOZ_USE_XINPUT2") "1")
 ;; To increase the scale of GTK apps.
 (setf (uiop:getenv "GDK_SCALE") "2")
+(setf (uiop:getenv "GTK_THEME") "Emacs")
 
 ;; Guix certificates paths
 (setf (uiop:getenv "SSL_CERT_DIR") "/etc/ssl/certs")
