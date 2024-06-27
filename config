@@ -27,8 +27,7 @@ Useful for dependency-based config files."
                (home ".config/stumpwm/"))))
 
 ;; Important asdf-loads
-(ql:quickload
- '(:cl-ppcre :zpng :alexandria :serapeum :bordeaux-threads :trivial-clipboard)) ; dependencies
+(asdf:load-systems :cl-ppcre :zpng :trivial-clipboard)
 
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
@@ -62,8 +61,7 @@ Useful for dependency-based config files."
 
 (set-focus-color "#cd5c5c")
 
-(setf (xlib:window-background (xlib:screen-root (screen-number (current-screen))))
-      #x8b3a3a)
+(setf (xlib:window-background (xlib:screen-root (screen-number (current-screen)))) #x8b3a3a)
 (update-color-map (current-screen))
 (enable-mode-line (current-screen) (current-head) t)
 
@@ -84,7 +82,12 @@ Useful for dependency-based config files."
 
 (defun run-pamixer-get-string (command)
   "Helper to abstract away pamixer commands and get percentage from them."
-  (string-trim serapeum:whitespace (run-shell-command command t)))
+  (string-trim
+   ;; serapeum:whitespace
+   (list #\Space #\Tab #\Linefeed #\Return #\Newline #\Page
+         #\Vt                           ;Vertical tab.
+         no-break-space)
+   (run-shell-command command t)))
 
 (defcommand increase-volume () ()
   "Increase device volume and show the percentage."
@@ -150,17 +153,6 @@ Useful for dependency-based config files."
 (defvar *screen-refresh-thread* nil
   "The thread to constantly move mouse a little to cause the screen stay on.")
 
-;; To make sure the machine doesn't go into the sleep mode.
-(define-interactive-keymap screen-lock-less-mode
-    (:on-enter (lambda ()
-                 (setf *screen-refresh-thread*
-                       (bt:make-thread (lambda ()
-                                         (loop (ratrelwarp (1- (random 3)) (1- (random 3)))
-                                               (sleep 550))))))
-     :on-exit (lambda ()
-                (bt:destroy-thread *screen-refresh-thread*)
-                (setf *screen-refresh-thread* nil))))
-
 ;; Recommended by Guix Cookbook. Will revisit and test later.
 ;; (setf xft:*font-dirs* '("/run/current-system/profile/share/fonts/"))
 ;; (setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
@@ -178,11 +170,6 @@ Useful for dependency-based config files."
 (let ((file "/etc/ssl/certs/ca-certificates.crt"))
   (setf (uiop:getenv "GIT_SSL_CAINFO") file
         (uiop:getenv "SSL_CERT_FILE") file))
-
-
-(bt:make-thread
- (lambda ()
-   (uiop:launch-program "offlineimap")))
 
 (init-load-path (home "/git/stumpwm-contrib/"))
 
@@ -249,5 +236,7 @@ Useful for dependency-based config files."
 (load-after-system :battery-portable (config "battery.lisp"))
 (load-after-system :screenshot (config "screenshot.lisp"))
 
-(load-after-system :swm-golden-ratio)
-(uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio)
+;; (load-after-system :swm-golden-ratio)
+;; (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio)
+
+
