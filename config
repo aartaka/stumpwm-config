@@ -171,7 +171,7 @@ Useful for dependency-based config files."
   (setf (uiop:getenv "GIT_SSL_CAINFO") file
         (uiop:getenv "SSL_CERT_FILE") file))
 
-(init-load-path (home "/git/stumpwm-contrib/"))
+(init-load-path (config "stumpwm-contrib/"))
 
 (defmacro load-after-system (system &optional file)
   "A simplistic copy of Nyxt's macro of the same name."
