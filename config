@@ -80,6 +80,10 @@ Useful for dependency-based config files."
           "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
           "(tool-bar-lines) (menu-bar-lines))'"))
 
+(defvar no-break-space
+  #-(or abcl lispworks) #\No-break_space
+  #+(or abcl lispworks) (code-char 160))
+
 (defun run-pamixer-get-string (command)
   "Helper to abstract away pamixer commands and get percentage from them."
   (string-trim
