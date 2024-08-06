@@ -175,6 +175,15 @@ Useful for dependency-based config files."
   (setf (uiop:getenv "GIT_SSL_CAINFO") file
         (uiop:getenv "SSL_CERT_FILE") file))
 
+(defun stumpwm::complete-program (base)
+  "COMPLETE-PROGRAM redefined to ignore period-prefixed execs (on Guix)."
+  (stumpwm::rehash)
+  (remove-if (lambda (prog)
+               (or (uiop:string-prefix-p "." prog)
+                   (> (length base) (length prog))
+                   (not (uiop:string-prefix-p base prog))))
+             (stumpwm::path-cache-programs stumpwm::*path-cache*)))
+
 (init-load-path (config "stumpwm-contrib/"))
 
 (defmacro load-after-system (system &optional file)
