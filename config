@@ -39,7 +39,7 @@ Useful for dependency-based config files."
       *default-bg-color* #x000000
 
       ;;         0         1         2         3         4         5         6          7        8
-      *colors* '("#000000" "#cd5c5c" "#556b2f" "#ffa408" "#3457d5" "#6f00ff" "#87d3f8" "#fff8f8" "gray")
+      *colors* '("#000000" "#f08080" "#6b8e23" "#ffb82b" "#1f75fe" "#8a2be2" "#afdbf5" "#fff8f8" "gray")
 
       *mouse-focus-policy* :ignore
 
