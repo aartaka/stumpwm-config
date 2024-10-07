@@ -27,7 +27,7 @@ Useful for dependency-based config files."
                (home ".config/stumpwm/"))))
 
 ;; Important asdf-loads
-(asdf:load-systems :cl-ppcre :zpng :trivial-clipboard)
+(asdf:load-systems :cl-ppcre :zpng :trivial-clipboard :bordeaux-threads)
 
 (setf *max-last-message-size* 200
       *message-window-gravity* :center
@@ -194,6 +194,16 @@ Useful for dependency-based config files."
   `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
      ,(when file
         `(load ,file))))
+
+(define-interactive-keymap screen-lock-less-mode
+    (:on-enter (lambda ()
+                 (setf *screen-refresh-thread*
+                       (bt:make-thread (lambda ()
+                                         (loop (ratrelwarp (1- (random 3)) (1- (random 3)))
+                                               (sleep 550))))))
+     :on-exit (lambda ()
+                (bt:destroy-thread *screen-refresh-thread*)
+                (setf *screen-refresh-thread* nil))))
 
 (load-after-system :binwarp (config "binwarp.lisp"))
 
