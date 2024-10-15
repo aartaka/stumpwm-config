@@ -169,12 +169,6 @@ Useful for dependency-based config files."
 (setf (uiop:getenv "GDK_SCALE") "2")
 (setf (uiop:getenv "GTK_THEME") "Emacs")
 
-;; Guix certificates paths
-(setf (uiop:getenv "SSL_CERT_DIR") "~/.guix-profile/etc/ssl/certs")
-(let ((file "~/.guix-profile/etc/ssl/certs/ca-certificates.crt"))
-  (setf (uiop:getenv "GIT_SSL_CAINFO") file
-        (uiop:getenv "SSL_CERT_FILE") file))
-
 (defun stumpwm::complete-program (base)
   "COMPLETE-PROGRAM redefined to ignore period-prefixed execs (on Guix)."
   (stumpwm::rehash)
