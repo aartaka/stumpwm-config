@@ -157,7 +157,7 @@ Useful for dependency-based config files."
 (defvar *screen-refresh-thread* nil
   "The thread to constantly move mouse a little to cause the screen stay on.")
 
-(set-font "-*-ibm plex mono light-*-*-*-*-16-*-*-*-*-*-*-*")
+(set-font "-*-ibm plex mono light-*-r-*-*-16-*-*-*-*-*-*-*")
 
 ;; To increase the scale of GTK apps.
 (setf (uiop:getenv "GDK_SCALE") "2")
