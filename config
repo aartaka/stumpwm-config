@@ -174,14 +174,13 @@ Useful for dependency-based config files."
 
 (init-load-path (config "stumpwm-contrib/"))
 
-(defmacro load-after-system (system &optional file)
+(defmacro load-after-system (system &body body)
   "A simplistic copy of Nyxt's macro of the same name."
   ;; On Guix, all the SBCL FASLs are put into read-only directories,
   ;; causing compilation errors. Using `asdf:load-source-op' helps that,
   ;; as loading from source does not cause re-compilation.
   `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
-     ,(when file
-        `(load ,file))))
+     ,@body))
 
 (define-interactive-keymap screen-lock-less-mode
     (:on-enter (lambda ()
@@ -193,7 +192,8 @@ Useful for dependency-based config files."
                 (bt:destroy-thread *screen-refresh-thread*)
                 (setf *screen-refresh-thread* nil))))
 
-(load-after-system :binwarp (config "binwarp.lisp"))
+(load-after-system :binwarp
+  (load (config "binwarp.lisp")))
 
 ;; This section is dependent on Vimium-FF and Binwarp.
 (define-remapped-keys
@@ -242,15 +242,18 @@ Useful for dependency-based config files."
      ("C-t" . "ESC")
      ("C-q" . "ESC"))))
 
-(load-after-system :slynk (config "slynk.lisp"))
-(load-after-system :mem (config "mem.lisp"))
-(load-after-system :battery-portable (config "battery.lisp"))
+(load-after-system :slynk
+  (load (config "slynk.lisp")))
+(load-after-system :mem
+  (load (config "mem.lisp")))
+(load-after-system :battery-portable
+  (load (config "battery.lisp")))
 
 (load-after-system :screenshot)
 (define-key *top-map* (kbd "s-s") "screenshot-area")
 (define-key *top-map* (kbd "SunPrint_Screen") "screenshot-area")
 
-(load-after-system :swm-golden-ratio)
-(uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio)
+(load-after-system :swm-golden-ratio
+  (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio))
 
 
