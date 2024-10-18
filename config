@@ -251,7 +251,10 @@ Useful for dependency-based config files."
 (load-after-system :slynk (config "slynk.lisp"))
 (load-after-system :mem (config "mem.lisp"))
 (load-after-system :battery-portable (config "battery.lisp"))
-(load-after-system :screenshot (config "screenshot.lisp"))
+
+(load-after-system :screenshot)
+(define-key *top-map* (kbd "s-s") "screenshot-area")
+(define-key *top-map* (kbd "SunPrint_Screen") "screenshot-area")
 
 ;; (load-after-system :swm-golden-ratio)
 ;; (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio)
