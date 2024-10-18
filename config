@@ -256,7 +256,7 @@ Useful for dependency-based config files."
 (define-key *top-map* (kbd "s-s") "screenshot-area")
 (define-key *top-map* (kbd "SunPrint_Screen") "screenshot-area")
 
-;; (load-after-system :swm-golden-ratio)
-;; (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio)
+(load-after-system :swm-golden-ratio)
+(uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio)
 
 
