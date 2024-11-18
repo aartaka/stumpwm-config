@@ -250,10 +250,8 @@ Useful for dependency-based config files."
   (load (config "mem.lisp")))
 (load-after-system :battery-portable
   (load (config "battery.lisp")))
-
-(load-after-system :screenshot)
-(define-key *top-map* (kbd "s-s") "screenshot-area")
-(define-key *top-map* (kbd "SunPrint_Screen") "screenshot-area")
+(load-after-system :screenshot
+  (load (config "screenshot.lisp")))
 
 (load-after-system :swm-golden-ratio
   (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio))
