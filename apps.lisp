@@ -44,3 +44,6 @@
     (uiop:split-string
      (alexandria:lastcar
       (uiop:read-file-lines #p"~/.local/share/surf/history.txt"))))))
+
+(defcommand discord () ()
+  (uiop:launch-program (list "flatpak" "run" "com.discordapp.Discord")))
