@@ -247,7 +247,8 @@ Useful for dependency-based config files."
 (load-after-system :slynk
   (load (config "slynk.lisp")))
 (load-after-system :mem
-  (load (config "mem.lisp")))
+  (setf (symbol-value (uiop:find-symbol* "*MEM-USAGE-BAR-EMPTY*" :mem)) #\Space
+        (symbol-value (uiop:find-symbol* "*MEM-MODELINE-FMT*" :mem))    "%pRAM"))
 (load-after-system :battery-portable
   (load (config "battery.lisp")))
 (load-after-system :screenshot
