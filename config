@@ -39,7 +39,7 @@ Useful for dependency-based config files."
       *default-bg-color* #x000000
 
       ;;         0         1         2         3         4         5         6          7        8
-      *colors* '("#000000" "#cd5c5c" "#6b8e23" "#ffb82b" "#1f75fe" "#8a2be2" "#afdbf5" "#fff8f8" "gray")
+      *colors* '("#000000" "#cd5c5c" "#6b8e23" "#ffb82b" "#1f75fe" "#8a2be2" "#afdbf5" "#ffefd5" "gray")
 
       *mouse-focus-policy* :ignore
 
@@ -48,7 +48,7 @@ Useful for dependency-based config files."
       *show-command-backtrace* t
 
       *mode-line-background-color* "#000000"
-      *mode-line-foreground-color* "#fff8f8"
+      *mode-line-foreground-color* "#ffefd5"
       *mode-line-border-width* 0
       *mode-line-pad-y* 5
       *mode-line-pad-x* 10
