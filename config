@@ -254,7 +254,9 @@ Useful for dependency-based config files."
 (load-after-system :screenshot
   (load (config "screenshot.lisp")))
 
-(load-after-system :swm-golden-ratio
-  (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio))
+;; Commented out because I want to resize windows myself (do I?)
+;; (load-after-system
+;;  :swm-golden-ratio
+;;  (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio))
 
 
