@@ -12,19 +12,13 @@
 Not really useful, but saves some typing and makes all the HOME
 resolution consistent."
   (namestring (uiop:merge-pathnames*
-               (if (eql #\/ (elt path 0))
-                   (subseq path 1)
-                   path)
-               (user-homedir-pathname))))
+               (string-left-trim "/" path) (user-homedir-pathname))))
 
 (defun config (path)
   "Resolve the PATH against StumpWM config dir.
 Useful for dependency-based config files."
   (namestring (uiop:merge-pathnames*
-               (if (eql #\/ (elt path 0))
-                   (subseq path 1)
-                   path)
-               (home ".config/stumpwm/"))))
+               (string-left-trim "/" path) (home ".config/stumpwm/"))))
 
 ;; Important asdf-loads
 (asdf:load-systems :cl-ppcre :zpng :trivial-clipboard :bordeaux-threads)
