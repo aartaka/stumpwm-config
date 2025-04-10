@@ -28,6 +28,8 @@
   (surf '("-S" "https://proton.me")))
 (defcommand youtube () ()
   (surf '("-S" "https://api.invidious.io/")))
+(defcommand merveilles () ()
+  (surf '("-SI" "https://merveilles.town")))
 (defcommand dict (&optional word) ((:string "Word to search: "))
   (surf (format nil "http://wordnetweb.princeton.edu/perl/webwn?s=~a" word)))
 (defcommand news () ()
