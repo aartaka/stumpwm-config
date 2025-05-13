@@ -9,6 +9,11 @@
 (defcommand quake () ()
   (uiop:launch-program (list "ioquake3.x86_64" "-height" "1200" "-width" "1600" "-condebug" "-mode" "4")))
 
+(defcommand gimp (&optional file-name) ((:string "File to open"))
+  (setf (uiop:getenv "GDK_SCALE") "1")
+  (uiop:launch-program (list "gimp" file-name))
+  (setf (uiop:getenv "GDK_SCALE") "2"))
+
 (defcommand surf (&optional args/url) ((:string "URL "))
   "Meta-command used in other commands to open URLs and search data."
   (uiop:launch-program (cons "surf" (uiop:ensure-list args/url))))
@@ -27,7 +32,7 @@
 (defcommand proton () ()
   (surf '("-S" "https://proton.me")))
 (defcommand youtube () ()
-  (surf '("-S" "https://api.invidious.io/")))
+  (surf '("-SI" "https://yewtu.be/")))
 (defcommand merveilles () ()
   (surf '("-SI" "https://merveilles.town")))
 (defcommand dict (&optional word) ((:string "Word to search: "))

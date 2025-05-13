@@ -124,7 +124,7 @@ Useful for dependency-based config files."
              ("s-C-u" "exec urxvt")
              ("s-C-k" "exec keepassxc")
              ("s-C-l" "exec libreoffice")
-             ("s-C-g" "exec gimp")
+             ("s-C-g" "gimp")
              ("s-l"   "query")
              ("s-L"   "copy-surf-link")
              ("s-SPC" "pull-hidden-next")
