@@ -38,7 +38,7 @@ Useful for dependency-based config files."
 
       *new-frame-action* :empty
 
-      *show-command-backtrace* t
+      stumpwm::*show-comman-dbacktrace* t
 
       *mode-line-background-color* "#000000"
       *mode-line-foreground-color* "#ffefd5"
@@ -48,8 +48,8 @@ Useful for dependency-based config files."
       *window-format* "%m%s %40t /"
       *screen-mode-line-format* "%d ^10/^70 %M ^10/^70 %B ^10//^70 %w"
 
-      *time-month-names* #("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
-      *time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
+      stumpwm::*time-month-names* #("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
+      stumpwm::*time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
       stumpwm::*input-refine-candidates-fn* #'stumpwm::input-refine-regexp)
 
 
