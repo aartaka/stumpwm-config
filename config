@@ -50,7 +50,7 @@ Useful for dependency-based config files."
 
       stumpwm::*time-month-names* #("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
       stumpwm::*time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
-      stumpwm::*input-refine-candidates-fn* #'stumpwm::input-refine-regexp)
+      stumpwm::*input-refine-candidates-fn* #'stumpwm::input-refine-fuzzy)
 
 
 (set-fg-color "#ffefd5")
