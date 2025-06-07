@@ -38,7 +38,7 @@ Useful for dependency-based config files."
 
       *new-frame-action* :empty
 
-      stumpwm::*show-comman-dbacktrace* t
+      stumpwm::*show-command-backtrace* t
 
       *mode-line-background-color* "#000000"
       *mode-line-foreground-color* "#ffefd5"
