@@ -17,9 +17,11 @@ Used to speed up the querying part of the copying commands.")
                (= attempt 3)
                (when password
                  (with-input-from-string (st password)
-                   (ignore-errors
-                    (uiop:run-program (list "keepassxc-cli" "ls" password-file)
-                                      :input st :output '(:string :stripped t))))))
+                   (handler-case
+                       (uiop:run-program (list "keepassxc-cli" "ls" password-file)
+                                         :input st :output '(:string :stripped t))
+                     (error ()
+                       nil)))))
         finally (return (setf *master-password* password))))
 
 (defun get-entries (password-file)
