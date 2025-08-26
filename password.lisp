@@ -71,3 +71,7 @@ Used to speed up the querying part of the copying commands.")
          (list "keepassxc-cli" "clip" "--attribute" "username"
                password-file entry)
          :input st)))))
+
+(defcommand clear-password-entries-cache () ()
+  "Reset entry list in case of KeePassXC app entry addition"
+  (setf *password-entries* (list)))
