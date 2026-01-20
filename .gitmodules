@@ -1,3 +1,6 @@
 [submodule "stumpwm-contrib"]
 	path = stumpwm-contrib
 	url = https://github.com/stumpwm/stumpwm-contrib
+[submodule "deps/line-readtable"]
+	path = deps/line-readtable
+	url = https://codeberg.org/aartaka/line-readtable
