@@ -1,0 +1,258 @@
+(in-package :stumpwm-user)
+(named-readtables:in-readtable line-readtable:line-readtable)
+(use-package :line-readtable)
+
+;; Just in case Quicklisp won't be found. Gotta also make this install QL in case it needs to.
+#-quicklisp
+(let [quicklisp-init
+       (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))]
+  (when #/ probe-file quicklisp-init
+    (load quicklisp-init)))
+
+(defun home [path]
+  "Resolve the PATH against $HOME.
+Not really useful, but saves some typing and makes all the HOME
+resolution consistent."
+  (namestring (uiop:merge-pathnames*
+               (string-left-trim "/" path) (user-homedir-pathname))))
+
+(defun config (path)
+  "Resolve the PATH against StumpWM config dir.
+Useful for dependency-based config files."
+  (namestring (uiop:merge-pathnames*
+               (string-left-trim "/" path) (home ".config/stumpwm/"))))
+
+(setf *max-last-message-size* 200
+      *message-window-gravity* :center
+      *message-window-input-gravity* :center
+      *input-window-gravity* :center
+      *timeout-wait* 2
+
+      *startup-message* "Happy window hacking!"
+
+      ;;         0         1         2         3         4         5         6          7        8
+      *colors* '("#000000" "#cd5c5c" "#6b8e23" "#ffb82b" "#1f75fe" "#8a2be2" "#afdbf5" "#ffefd5" "gray")
+
+      *mouse-focus-policy* :ignore
+
+      *new-frame-action* :empty
+
+      stumpwm::*show-command-backtrace* t
+
+      *mode-line-background-color* "#000000"
+      *mode-line-foreground-color* "#ffefd5"
+      *mode-line-border-width* 0
+      *mode-line-pad-y* 5
+      *mode-line-pad-x* 10
+      *window-format* "%m%s %40t /"
+      *screen-mode-line-format* "%d ^10/^70 %M ^10/^70 %B ^10//^70 %w"
+
+      stumpwm::*time-month-names* #("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec")
+      stumpwm::*time-day-names* #("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
+      stumpwm::*input-refine-candidates-fn* #'stumpwm::input-refine-fuzzy)
+
+
+(set-fg-color "#ffefd5")
+(set-bg-color "black")
+(set-border-color "#ffefd5")
+(set-focus-color "#cd5c5c")
+
+(setf (xlib:window-background #/ xlib:screen-root #/ screen-number #/ current-screen) #x8b3a3a)
+(update-color-map #/ current-screen)
+(enable-mode-line (current-screen) (current-head) t)
+
+(load #/ config "apps.lisp")
+(load #/ config "password.lisp")
+
+(set-prefix-key (kbd "s-t"))
+
+(defcommand sudo [command password] ((:string "sudo bash -c ") (:password "Sudo password: "))
+  "Run the COMMAND as sudo, prompting for PASSWORD."
+  (with-input-from-string [s password]
+    (uiop:launch-program `("sudo" "-S" "--" "bash" "-c" ,command) :input s)))
+
+(defvar emacsclient
+  (concat "exec emacsclient -cn -a '' "
+          "-F '((font . \"IBM Plex Mono-17\") (vertical-scroll-bars) "
+          "(tool-bar-lines) (menu-bar-lines))'"))
+
+(defvar no-break-space
+  #-(or abcl lispworks) #\No-break_space
+  #+(or abcl lispworks) (code-char 160))
+
+(defun run-pamixer-get-string [command]
+  "Helper to abstract away pamixer commands and get percentage from them."
+  (string-trim
+   ;; serapeum:whitespace
+   (list #\Space #\Tab #\Linefeed #\Return #\Newline #\Page
+         #\Vt                           ;Vertical tab.
+         no-break-space)
+   (run-shell-command command t)))
+
+(defcommand increase-volume [] ()
+  "Increase device volume and show the percentage."
+  (message "Volume at ~a%" #/ run-pamixer-get-string "pamixer --allow-boost -i 5 --get-volume"))
+
+(defcommand decrease-volume [] ()
+  "Decrease device volume and show the percentage."
+  (message "Volume at ~d%" #/ run-pamixer-get-string "pamixer -d 5 --get-volume"))
+
+(defcommand toggle-mute [] ()
+  "Mute or unmute the device."
+  (if #/ equal "true" #/ run-pamixer-get-string "pamixer -t --get-mute"
+      (message "Muted!")
+      (message "Unmuted!")))
+
+(loop :for [binding command]
+        :in `(("s-r"   "iresize")
+             ("s-a"   "time")
+             ("s-b"   "banish")
+             ("s-:"   "eval")
+             ("s-;"   "colon")
+             ("s-!"   "exec")
+             ("s-h"   ,*help-map*)
+             ("s-g"   ,*groups-map*)
+             ("s-q"   "send-raw-key")
+             ("s-p"   "copy-password")
+             ("s-u"   "copy-username")
+             ("s-F3"  "increase-volume")
+             ("s-F2"  "decrease-volume")
+             ("s-F1"  "toggle-mute")
+             ("s-e"   ,emacsclient)
+             ("s-C-e" "exec emacs")
+             ("s-C-t" "exec st")
+             ("s-C-s" "exec surf")
+             ("s-C-n" "exec nyxt -v")
+             ("s-C-u" "exec urxvt")
+             ("s-C-k" "exec keepassxc")
+             ("s-C-l" "exec libreoffice")
+             ("s-C-g" "gimp")
+             ("s-l"   "query")
+             ("s-L"   "copy-surf-link")
+             ("s-SPC" "pull-hidden-next")
+             ("s-M-p" "prev-in-frame")
+             ("s-M-n" "next-in-frame")
+             ("s-4"   "fullscreen")
+             ("s-3"   "hsplit")
+             ("s-2"   "vsplit")
+             ("s-1"   "only")
+             ("s-0"   "remove")
+             ("s-TAB" "fother")
+             ("s-w"   "windows")
+             ("s-+"   "balance-frames")
+             ("s-k"   "delete")
+             ("s-K"   "kill")
+             ("s-o"   "other")
+             ("s-i"   "info")
+             ("s-I"   "show-window-properties")
+             ("s-#"   "mark")
+             ("s-N"   "number")
+             ("s-RET" "ratclick 1"))
+      :do (define-key *top-map* (kbd binding) command))
+
+(defvar *screen-refresh-thread* nil
+  "The thread to constantly move mouse a little to cause the screen stay on.")
+
+(set-font "-*-ibm plex mono light-*-r-*-*-17-*-*-*-*-*-*-*")
+
+;; To increase the scale of GTK apps.
+(setf (uiop:getenv "GDK_SCALE") "2")
+(setf (uiop:getenv "GTK_THEME") "Emacs")
+
+(defun stumpwm::complete-program [base]
+  "COMPLETE-PROGRAM redefined to ignore period-prefixed execs (on Guix)."
+  (stumpwm::rehash)
+  (remove-if (lambda [prog]
+               (or #/ uiop:string-prefix-p "." prog
+                   #/ > (length base) (length prog)
+                   #/ not #/ uiop:string-prefix-p base prog))
+             (stumpwm::path-cache-programs stumpwm::*path-cache*)))
+
+(init-load-path #/ config "stumpwm-contrib/")
+
+(defmacro load-after-system [system &body body]
+  "A simplistic copy of Nyxt's macro of the same name."
+  ;; On Guix, all the SBCL FASLs are put into read-only directories,
+  ;; causing compilation errors. Using `asdf:load-source-op' helps that,
+  ;; as loading from source does not cause re-compilation.
+  `(bt:make-thread
+    (lambda []
+      (when #/ ignore-errors #/ asdf:oos 'asdf:load-source-op ,system
+        ,@body))))
+
+(define-interactive-keymap screen-lock-less-mode
+    (:on-enter (lambda []
+                 (setf *screen-refresh-thread*
+                       (bt:make-thread (lambda []
+                                         (loop (ratrelwarp (1- #/ random 3) (1- #/ random 3))
+                                               (sleep 550))))))
+     :on-exit (lambda []
+                (bt:destroy-thread *screen-refresh-thread*)
+                (setf *screen-refresh-thread* nil))))
+
+(load-after-system :binwarp
+  (load #/ config "binwarp.lisp"))
+
+;; This section is dependent on Vimium-FF and Binwarp.
+(define-remapped-keys
+  `((,(lambda [win]
+        (and (some (lambda [class]
+                     (search class (window-class win) :test #'equalp))
+                   '("librewolf" "firefox" "icecat" "nightly" "chromium" "surf" "lagrange"))
+             (not #/ ignore-errors #/ symbol-value #/ read-from-string "binwarp:*binwarp-mode-p*")))
+     ;; The native ones
+     ("C-n" . "Down") ("C-N" . "S-Down")
+     ("C-p" . "Up") ("C-P" . "S-Up")
+     ("C-b" . "Left") ("C-B" . "S-Left")
+     ("C-f" . "Right") ("C-F" . "S-Right")
+     ("C-v" . "SunPageDown")
+     ("M-v" . "SunPageUp")
+     ("M-<" . "Home")
+     ("M->" . "End")
+     ("C-a" . "Home")
+     ("C-e" . "End")
+     ("C-d" . "Delete")
+     ;; Advanced text movement
+     ("M-f" . "C-Right") ("M-F" . "C-S-Right")  ; Jump one word forward
+     ("M-b" . "C-Left") ("M-B" . "C-S-Left")   ; Jump one word backward
+     ("C-M-f" . "C-Right") ("C-M-F" . "C-S-Right")  ; Jump one word forward alias
+     ("C-M-b" . "C-Left") ("C-M-B" . "C-S-Left")   ; Jump one word backward
+     ("C-a" . "C-Up") ("C-A" . "C-S-Up")     ; Jump to the beginning of the line
+     ("C-e" . "C-Down") ("C-E" . "C-S-Down")   ; Jump to the end of the line
+     ("C-M-a" . "C-Home") ("C-M-A" . "C-S-Home") ; Jump to the beginning of the text
+     ("C-M-e" . "C-End") ("C-M-E" . "C-S-End")  ; Jump to the end of the text
+     ;; Text editing
+     ("C-y" . "C-v")      ; Paste/yank
+     ("C-w" . "C-x")      ; Cut/kill
+     ("M-w" . "C-c")      ; Copy
+     ("C-/" . "C-z")      ; Undo
+     ("C-?" . "C-Z")      ; Redo
+     ;; Less-obvious native ones
+     ("M-." . "M-Right")  ; Forward in history
+     ("M-," . "M-Left")   ; Back in history
+     ("C-s" . "C-f")      ; Forward search
+     ("C-d" . "C-k")      ; Focus search bar
+     ("C-o" . "C-t")      ; New tab
+     ("C-k" . "C-w")      ; Close current tab
+     ("C-1" . "F11")      ; Fullscreen
+     ("C-SPC" . "F7")     ; Caret mode. Can be handy for text selection.
+     ;; Unbind the quirky original keybindings
+     ("C-t" . "ESC")
+     ("C-q" . "ESC"))))
+
+(load-after-system :slynk
+  #/ load #/ config "slynk.lisp")
+(load-after-system :mem
+  (setf (symbol-value #/ uiop:find-symbol* "*MEM-USAGE-BAR-EMPTY*" :mem) #\Space
+        (symbol-value #/ uiop:find-symbol* "*MEM-MODELINE-FMT*" :mem)    "%pRAM"))
+(load-after-system :battery-portable
+  #/ load #/ config "battery.lisp")
+(load-after-system :screenshot
+  #/ load #/ config "screenshot.lisp")
+
+;; Commented out because I want to resize windows myself (do I?)
+;; (load-after-system
+;;  :swm-golden-ratio
+;;  (uiop:symbol-call :swm-golden-ratio :toggle-golden-ratio))
+
+
