@@ -14,6 +14,11 @@
   (uiop:launch-program (list "gimp" file-name))
   (setf (uiop:getenv "GDK_SCALE") "2"))
 
+(defcommand inkscape () ()
+  (setf (uiop:getenv "GDK_SCALE") "1")
+  (uiop:launch-program (list "inkscape"))
+  (setf (uiop:getenv "GDK_SCALE") "2"))
+
 (defcommand surf (&optional args/url) ((:string "URL "))
   "Meta-command used in other commands to open URLs and search data."
   (uiop:launch-program (cons "surf" (uiop:ensure-list args/url))))
